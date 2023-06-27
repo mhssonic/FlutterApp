@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/timeLine"
+        android:checkable="false"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/time_line"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/search"
+        android:title="@string/search"
+        android:icon="@drawable/baseline_person_search_24"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/directMessages"
+        android:title="@string/direct_message"
+        android:icon="@drawable/baseline_mail_24"
+        app:showAsAction="ifRoom"/>
+</menu>

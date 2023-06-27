@@ -11,4 +11,9 @@
     <string name="login">ورود</string>
     <string name="icon">icon</string>
     <string name="sign_up">ثبت نام</string>
+    <string name="time_line">Time Line</string>
+    <string name="search">Search</string>
+    <string name="direct_message">Direct Message</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
