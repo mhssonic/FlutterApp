@@ -59,47 +59,46 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextUsername"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="نام کاربری"
-            android:inputType="textPassword"
+            android:hint="@string/username"
+            android:inputType="text"
             android:minHeight="48dp"
-            android:textAlignment="textEnd" />
+            tools:ignore="TextFields" />
 
         <EditText
-            android:id="@+id/editTextUsername"
+            android:id="@+id/editTextPassword"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:ems="10"
-            android:hint="رمزعبور"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:textAlignment="textEnd" />
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
 
             android:backgroundTint="#333F63"
-            android:text="ورود"
+            android:text="@string/login"
             android:textSize="24sp"
             android:textStyle="bold"
             app:rippleColor="#838BC2" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
 
             android:backgroundTint="#333F63"
-            android:text="ثبت نام"
+            android:text="@string/sign_up"
             android:textSize="24sp"
             android:textStyle="bold"
             app:rippleColor="#838BC2" />
