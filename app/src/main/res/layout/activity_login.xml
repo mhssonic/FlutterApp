@@ -1,96 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    tools:context=".ui.userAuth.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    tools:context=".MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:layout_height="370dp"
+        android:layout_marginTop="-55dp"
+        app:cardBackgroundColor="#715C8C"
+        app:cardCornerRadius="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="103dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="260dp"
+        app:cardBackgroundColor="#D7D4DD"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="117dp"
-            android:layout_height="121dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/flutter"
-            tools:layout_editor_absoluteY="16dp" />
+            android:layout_width="96dp"
+            android:layout_height="106dp"
+            android:layout_gravity="bottom|center"
+            android:padding="5dp"
+            app:srcCompat="@drawable/flutter" />
+    </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:layout_marginTop="30dp"
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textAlignment="center"
-            android:textColor="@color/dark_purple"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editTextUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="@string/username"
-            android:inputType="text"
-            android:minHeight="48dp" />
+    <LinearLayout
+        android:layout_width="301dp"
+        android:layout_height="361dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="1dp"
+        android:baselineAligned="false"
+        android:orientation="vertical"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
         <EditText
             android:id="@+id/editTextPassword"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="@string/password"
+            android:hint="نام کاربری"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textAlignment="textEnd" />
+
+        <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="رمزعبور"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textAlignment="textEnd" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+
+            android:backgroundTint="#333F63"
+            android:text="ورود"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:rippleColor="#838BC2" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+
+            android:backgroundTint="#333F63"
+            android:text="ثبت نام"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:rippleColor="#838BC2" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/dark_purple"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textColorHighlight="@color/dark_purple"
-        android:textColorLink="@color/dark_purple"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
-        tools:layout_editor_absoluteX="20dp" />
-
-    <Button
-
-        android:id="@+id/sign_up_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/dark_purple"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="@string/sign_up"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:rippleColor="#03A9F4"
-        tools:layout_editor_absoluteX="20dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
