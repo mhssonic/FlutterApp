@@ -85,11 +85,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
 
-            android:backgroundTint="#333F63"
+            android:backgroundTint="@color/dark_purple"
             android:text="@string/login"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:rippleColor="#838BC2" />
+            app:rippleColor="@color/light_green" />
 
         <Button
             android:id="@+id/signUpButton"
@@ -97,11 +97,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
 
-            android:backgroundTint="#333F63"
+            android:backgroundTint="@color/dark_purple"
             android:text="@string/sign_up"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:rippleColor="#838BC2" />
+            app:rippleColor="@color/red" />
     </LinearLayout>
 
 
