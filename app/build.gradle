@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+//apply plugin: 'kotlin-kapt'
+
 android {
     namespace 'com.mhssonic.flutter'
     compileSdk 33
@@ -42,14 +44,22 @@ dependencies {
     def lifecycle_version = "2.6.1"
     def arch_version = "2.2.0"
 
-    // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-
     def retrofit_version = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    def coroutines = "1.7.1"
 
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    implementation "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1"
+
+    implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
