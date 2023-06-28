@@ -84,24 +84,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-
-            android:backgroundTint="@color/dark_blue"
             android:text="@string/login"
             android:textSize="24sp"
             android:textStyle="bold"
             app:rippleColor="@color/Periwinkle" />
+            android:backgroundTint="@color/dark_purple"/>
 
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-
-            android:backgroundTint="@color/dark_blue"
             android:text="@string/sign_up"
             android:textSize="24sp"
             android:textStyle="bold"
             app:rippleColor="@color/Periwinkle" />
+            android:backgroundTint="@color/dark_purple"/>
     </LinearLayout>
 
 

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mhssonic.flutter.databinding.ActivityLoginBinding
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.ui.menu.MainMenuActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,6 +25,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var sharedEditor : SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //TODO make it clean and add if he has already logged in
+
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -31,7 +34,8 @@ class LoginActivity : AppCompatActivity() {
         sharedPreference = getSharedPreferences("user_information", MODE_PRIVATE)
         sharedEditor = sharedPreference.edit()
 
-        val intent = Intent(this, SignUpActivity::class.java)
+        val intentSignUp = Intent(this, SignUpActivity::class.java)
+        val intentMainMenu = Intent(this, MainMenuActivity::class.java)
         val serviceApi = RetrofitInstance.getApiService(getSharedPreferences("cookies", MODE_PRIVATE))
         Log.v(TAG, "-------------------------------------------")
 
@@ -59,14 +63,14 @@ class LoginActivity : AppCompatActivity() {
                         response: Response<ResponseBody>
                     ) {
                         if (response.isSuccessful) {
-                            Toast.makeText(applicationContext, response.toString(), Toast.LENGTH_LONG).show()
+                            startActivity(intentMainMenu)
                         }else{
-                            Toast.makeText(applicationContext, "something went wrong", Toast.LENGTH_LONG).show()
+                            Toast.makeText(applicationContext, "Your username or password is wrong", Toast.LENGTH_LONG).show()
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        val request = call.request()
+                        //TODO change it to there is a problem with your network
                         Toast.makeText(applicationContext, "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
                     }
                 })
@@ -78,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             binding.signUpButton.setOnClickListener {
-                startActivity(intent)
+                startActivity(intentSignUp)
             }
         }
     }

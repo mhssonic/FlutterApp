@@ -1,5 +1,6 @@
 package com.mhssonic.flutter.service.http
 
+import com.mhssonic.flutter.model.TimeLineData
 import com.mhssonic.flutter.model.UserLoginData
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -11,4 +12,8 @@ interface ApiService {
 //    @Headers("Content-Type : application/json")
     @POST("/sign-in")
     fun login(@Body data: UserLoginData): Call<ResponseBody>
+
+    @POST("/show-timeline")
+    @Headers("Content-Type: application/json")
+    fun getTimeLine(): Call<TimeLineData>
 }
