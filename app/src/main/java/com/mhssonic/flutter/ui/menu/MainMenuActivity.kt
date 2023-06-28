@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.RippleDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityLoginBinding
@@ -15,20 +16,24 @@ import com.mhssonic.flutter.databinding.ActivityMainMenuBinding
 class MainMenuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainMenuBinding
 
-    private val timeLineFragment = TimeLineFragment()
-    private val searchFragment = SearchFragment()
-    private val directMessagesFragment = DirectMessagesFragment()
+    private lateinit var timeLineFragment: TimeLineFragment
+    private lateinit var searchFragment: SearchFragment
+    private lateinit var directMessagesFragment: DirectMessagesFragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        timeLineFragment = TimeLineFragment(getSharedPreferences("cookies", AppCompatActivity.MODE_PRIVATE))
+        searchFragment = SearchFragment()
+        directMessagesFragment = DirectMessagesFragment()
 
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         replaceFragment(timeLineFragment)
 
-        binding.bottomNavigation.setOnItemReselectedListener {
+        binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.timeLine -> replaceFragment(timeLineFragment)
                 R.id.search -> replaceFragment(searchFragment)
