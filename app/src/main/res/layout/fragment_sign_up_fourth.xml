@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.userAuth.SignUpFourth">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextBirthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="30dp"
+            android:focusable="false"
+            android:hint="@string/birth_date"
+            android:onClick="showDatePickerDialog" />
+
+        <Spinner
+            android:id="@+id/spinnerCountry"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginHorizontal="10dp"
+            android:spinnerMode="dropdown" />
+
+        <Button
+            android:id="@+id/btRegister"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:backgroundTint="@color/purple"
+            android:text="@string/sign_up"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:rippleColor="@color/purple" />
+
+        <Button
+            android:id="@+id/brPrev"
+            android:layout_width="191dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="-100dp"
+            android:backgroundTint="@color/dark_blue"
+            android:text="@string/previous"
+            app:rippleColor="@color/Periwinkle" />
+
+    </LinearLayout>
+
+</FrameLayout>

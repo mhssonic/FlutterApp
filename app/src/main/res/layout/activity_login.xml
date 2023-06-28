@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:layout_marginTop="-55dp"
-        app:cardBackgroundColor="#715C8C"
+        app:cardBackgroundColor="@color/purple"
         app:cardCornerRadius="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -25,7 +25,7 @@
         android:layout_height="105dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="260dp"
-        app:cardBackgroundColor="#D7D4DD"
+        app:cardBackgroundColor="@color/ivory"
         app:cardCornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,22 +84,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:backgroundTint="@color/dark_purple"
             android:text="@string/login"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:rippleColor="@color/light_green" />
+            app:rippleColor="@color/Periwinkle" />
+            android:backgroundTint="@color/dark_purple"/>
 
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:backgroundTint="@color/dark_purple"
             android:text="@string/sign_up"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:rippleColor="@color/red" />
+            app:rippleColor="@color/Periwinkle" />
+            android:backgroundTint="@color/dark_purple"/>
     </LinearLayout>
 
 
