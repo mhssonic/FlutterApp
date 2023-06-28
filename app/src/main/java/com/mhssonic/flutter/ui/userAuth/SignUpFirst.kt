@@ -49,7 +49,6 @@ class SignUpFirst : SignUp() {
                     .commit()
             }
         }
-
         return view
     }
 }

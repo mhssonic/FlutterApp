@@ -19,7 +19,10 @@
     <string name="country">کشور</string>
     <string name="birth_date">تاریخ تولد</string>
 
-    <string name="empty_filed">لطفا اطلاعات مورد نظز زا وارد کنید</string>
+
+    <string name="setting">تنظیمات</string>
+    <string name="bio">بیوگرافی</string>
+    <string name="heather">+تغییر عکس</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
