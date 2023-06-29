@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.model.UserSignUpData
 
 
 class SignUpFirst : SignUp() {
@@ -37,9 +38,12 @@ class SignUpFirst : SignUp() {
                 emptyToast()
             } else {
                 val bundle = Bundle()
-                bundle.putString("first_name", firstName)
-                bundle.putString("last_name", lastName)
+                user.firstName = firstName
+                user.lastName = lastName
+                bundle.putSerializable("user" , user)
+                val secondFragment = SignUpSecond()
                 secondFragment.arguments = bundle
+
 
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, secondFragment)
