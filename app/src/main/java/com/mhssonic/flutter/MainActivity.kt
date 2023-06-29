@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mhssonic.flutter.databinding.ActivityMainBinding
+import com.mhssonic.flutter.ui.userAuth.settings.SettingActivity
 import com.mhssonic.flutter.ui.menu.MainMenuActivity
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpActivity
 

@@ -40,8 +40,6 @@ class SignUpSecond : SignUp() {
             val password = edPassword.text.toString()
             val conPassword = edConPassword.text.toString()
 
-
-
             if (password != conPassword){
                 emptyToast()
             }

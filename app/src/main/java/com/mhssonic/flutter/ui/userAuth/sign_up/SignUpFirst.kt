@@ -9,7 +9,6 @@ import android.widget.EditText
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserSignUpData
 
-
 class SignUpFirst : SignUp() {
     private lateinit var btnChangeFragment: Button
     private lateinit var edFirstName: EditText
@@ -23,6 +22,9 @@ class SignUpFirst : SignUp() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up_first, container, false)
 
+
+//         edFirstName = view.findViewById(R.id.edUsername)
+//         edLastName = view.findViewById(R.id.edLastName)
 
         edFirstName = view.findViewById(R.id.ptFirstName)
         edLastName = view.findViewById(R.id.ptLastName)
@@ -38,6 +40,7 @@ class SignUpFirst : SignUp() {
                 emptyToast()
             } else {
                 val bundle = Bundle()
+
                 user.firstName = firstName
                 user.lastName = lastName
                 bundle.putSerializable("user" , user)
