@@ -2,8 +2,12 @@ package com.mhssonic.flutter.service.http
 
 import com.mhssonic.flutter.model.TimeLineData
 import com.mhssonic.flutter.model.UserLoginData
+import io.reactivex.Observable
+import io.reactivex.Observer
+import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -15,5 +19,5 @@ interface ApiService {
 
     @POST("/show-timeline")
     @Headers("Content-Type: application/json")
-    fun getTimeLine(): Call<TimeLineData>
+    fun getTimeLine(): Observable<TimeLineData>
 }

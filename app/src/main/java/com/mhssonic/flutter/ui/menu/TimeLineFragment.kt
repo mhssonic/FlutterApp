@@ -7,9 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.mhssonic.flutter.databinding.FragmentTimeLineBinding
 import com.mhssonic.flutter.model.TimeLineData
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +25,7 @@ import retrofit2.Response
 class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragment() {
     private lateinit var binding : FragmentTimeLineBinding
 
+    val compositeDisposable = CompositeDisposable()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,19 +36,19 @@ class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragmen
 
         val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
 
-        val call = serviceApi.getTimeLine()
-        call.enqueue(object : Callback<TimeLineData> {
-            override fun onResponse(call: Call<TimeLineData>, response: Response<TimeLineData>) {
-                Log.v("MYTAG", response.body().toString())
-            }
-
-            override fun onFailure(call: Call<TimeLineData>, t: Throwable) {
-                Log.v("MYTAG", "failed ${t.message!!}")
-            }
-        })
+        compositeDisposable.add(serviceApi.getTimeLine().subscribeOn(Schedulers.io()).subscribe({
+            Log.v("MYTAG", it.first().toString())
+        }, {
+            Log.v("MYTAG", "failed ${it.message!!}")
+        }))
 
 
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }

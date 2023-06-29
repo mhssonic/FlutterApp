@@ -53,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
             })
 
             binding.loginButton.setOnClickListener {
+                binding.loginButton.isEnabled = false
                 val data = UserLoginData(binding.editTextUsername.text.toString()
                     , binding.editTextPassword.text.toString())
 
@@ -63,13 +64,17 @@ class LoginActivity : AppCompatActivity() {
                         response: Response<ResponseBody>
                     ) {
                         if (response.isSuccessful) {
+                            finish()
                             startActivity(intentMainMenu)
                         }else{
+                            binding.loginButton.isEnabled = true
                             Toast.makeText(applicationContext, "Your username or password is wrong", Toast.LENGTH_LONG).show()
                         }
+
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        binding.loginButton.isEnabled = true
                         //TODO change it to there is a problem with your network
                         Toast.makeText(applicationContext, "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
                     }

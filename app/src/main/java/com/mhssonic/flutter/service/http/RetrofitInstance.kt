@@ -2,80 +2,74 @@ package com.mhssonic.flutter.service.http
 
 import android.content.SharedPreferences
 import com.fasterxml.jackson.core.JsonParseException
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.mhssonic.flutter.model.message.MessageData
-import com.mhssonic.flutter.model.message.direct.DirectMessageData
-import com.mhssonic.flutter.model.message.tweet.CommentData
-import com.mhssonic.flutter.model.message.tweet.PollData
-import com.mhssonic.flutter.model.message.tweet.QuoteData
-import com.mhssonic.flutter.model.message.tweet.RetweetData
-import com.mhssonic.flutter.model.message.tweet.TweetData
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.mhssonic.flutter.model.Message.MessageData
+import com.mhssonic.flutter.model.Message.Tweet.CommentData
+import com.mhssonic.flutter.model.Message.Tweet.PollData
+import com.mhssonic.flutter.model.Message.Tweet.QuoteData
+import com.mhssonic.flutter.model.Message.Tweet.RetweetData
+import com.mhssonic.flutter.model.Message.Tweet.TweetData
+import com.mhssonic.flutter.model.Message.direct.DirectMessageData
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import okio.IOException
 import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
 import java.security.SecureRandom
-import java.time.LocalDateTime
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocketFactory
 
+
 class RetrofitInstance {
 
-    class PostingTimeDeserializer : JsonDeserializer<LocalDateTime>() {
-        @Throws(IOException::class)
-        override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDateTime {
-            val codec = parser.codec
-            val node: JsonNode = codec.readTree(parser)
+//    class PostingTimeDeserializer : JsonDeserializer<LocalDateTime>() {
+//        @Throws(IOException::class)
+//        override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDateTime {
+//            val codec = parser.codec
+//            val node: JsonNode = codec.readTree(parser)
+//
+//            val year = node.get("year").asInt()
+//            val month = node.get("monthValue").asInt()
+//            val day = node.get("dayOfMonth").asInt()
+//            val hour = node.get("hour").asInt()
+//            val minute = node.get("minute").asInt()
+//            val second = node.get("second").asInt()
+//            val nano = node.get("nano").asInt()
+//
+//            return LocalDateTime.of(year, month, day, hour, minute, second, nano)
+//        }
+//    }
 
-            val year = node.get("year").asInt()
-            val month = node.get("monthValue").asInt()
-            val day = node.get("dayOfMonth").asInt()
-            val hour = node.get("hour").asInt()
-            val minute = node.get("minute").asInt()
-            val second = node.get("second").asInt()
-            val nano = node.get("nano").asInt()
-
-            return LocalDateTime.of(year, month, day, hour, minute, second, nano)
-        }
-    }
-
-    class MessageDataDeserializer : JsonDeserializer<MessageData>() {
+    class MessageDataDeserializer : JsonDeserializer<MessageData> {
         override fun deserialize(
-            parser: JsonParser,
-            context: DeserializationContext
-        ): MessageData {
-            val node: JsonNode = parser.codec.readTree(parser)
-            val idNode = node.get("messageId")
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
+        ): MessageData? {
+            val id = json?.asJsonObject?.get("messageId")?.asInt
+                ?: throw JsonParseException("ID not found for MessageData")
 
-            if (idNode == null || idNode.isNull) {
-                throw JsonParseException(parser, "ID not found for MessageData")
-            }
-
-            val id = idNode.asInt()
             return when (id % 6){
-                0 -> context.readValue(node.traverse(), TweetData::class.java)
-                1 -> context.readValue(node.traverse(), CommentData::class.java)
-                2 -> context.readValue(node.traverse(), RetweetData::class.java)
-                3 -> context.readValue(node.traverse(), PollData::class.java)
-                4 -> context.readValue(node.traverse(), QuoteData::class.java)
-                5 -> context.readValue(node.traverse(), DirectMessageData::class.java)
-                else -> throw JsonParseException(parser, "Unknown MessageData type")
+                0 -> context?.deserialize(json, TweetData::class.java)
+                1 -> context?.deserialize(json, CommentData::class.java)
+                2 -> context?.deserialize(json, RetweetData::class.java)
+                3 -> context?.deserialize(json, PollData::class.java)
+                4 -> context?.deserialize(json, QuoteData::class.java)
+                5 -> context?.deserialize(json, DirectMessageData::class.java)
+                else -> throw JsonParseException("Unknown MessageData type")
             }
         }
+
     }
 
 
@@ -154,9 +148,16 @@ class RetrofitInstance {
     companion object{
         private const val BASE_URL = "https://192.168.1.4:5050"
         private fun getRetrofitInstance(sharedPreferences: SharedPreferences): Retrofit {
-            val objectMapper: ObjectMapper = jacksonObjectMapper()
-                .registerModule(SimpleModule().addDeserializer(LocalDateTime::class.java, PostingTimeDeserializer()))
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+//            val objectMapper: ObjectMapper = jacksonObjectMapper()
+//                .registerModule(SimpleModule()
+//                    .addDeserializer(LocalDateTime::class.java, PostingTimeDeserializer())
+
+//                    .addSerializer(LocalDateTime::class.java, MessageData.LocalDateTimeSerializer())
+//                    .addDeserializer(LocalDateTime::class.java,
+//                        MessageData.LocalDateTimeDeserializer()
+//                    )
+//                    .addDeserializer(MessageData::class.java, MessageDataDeserializer()))
+//                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 
             val cookieJar = MyCookieJar(sharedPreferences)
 
@@ -174,10 +175,14 @@ class RetrofitInstance {
                 .hostnameVerifier { _, _ -> true }
                 .cookieJar(cookieJar)
                 .build()
-
+            val gson = GsonBuilder()
+                .registerTypeAdapter(MessageData::class.java, MessageDataDeserializer())
+                .create()
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
+//                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build()
         }
