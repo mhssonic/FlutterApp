@@ -25,7 +25,7 @@ import retrofit2.Response
 class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragment() {
     private lateinit var binding : FragmentTimeLineBinding
 
-    val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
