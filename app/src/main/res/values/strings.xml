@@ -23,8 +23,13 @@
     <string name="setting">تنظیمات</string>
     <string name="bio">بیوگرافی</string>
     <string name="heather">+تغییر عکس</string>
+    <string name="yourProfile">اطلاعات شخصی</string>
+    <string name="register">ثبت تغییرات</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="time_line">Time Line</string>
+    <string name="search">Search</string>
+    <string name="direct_message">Direct Message</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

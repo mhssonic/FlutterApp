@@ -39,8 +39,6 @@ class SignUpFirst : SignUp() {
                 emptyToast()
             } else {
                 val bundle = Bundle()
-                bundle.putString("first_name", firstName)
-                bundle.putString("last_name", lastName)
                 secondFragment.arguments = bundle
 
                 parentFragmentManager.beginTransaction()

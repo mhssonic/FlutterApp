@@ -1,12 +1,14 @@
 package com.mhssonic.flutter.ui.userAuth
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.mhssonic.flutter.R
+
 
 class SettingFirst : Fragment() {
     private lateinit var btnChangeFragment: Button
@@ -23,8 +25,9 @@ class SettingFirst : Fragment() {
         btnChangeFragment.setOnClickListener {
 
             val secondFragment = SettingSecond()
+
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, secondFragment)
+            .replace(R.id.fragmentContainerView2, secondFragment)
                 .addToBackStack(null)
                 .commit()
         }

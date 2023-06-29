@@ -19,6 +19,9 @@
             android:name=".ui.userAuth.SignUpActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.userAuth.SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.userAuth.LoginActivity"
             android:exported="false" />
         <activity
