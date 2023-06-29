@@ -4,8 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mhssonic.flutter.databinding.ActivityMainBinding
-import com.mhssonic.flutter.ui.menu.MainMenuActivity
+//import com.mhssonic.flutter.ui.menu.MainMenuActivity
 import com.mhssonic.flutter.ui.userAuth.LoginActivity
+import com.mhssonic.flutter.ui.userAuth.SettingActivity
 
 private lateinit var binding: ActivityMainBinding
 class MainActivity : AppCompatActivity() {
@@ -15,9 +16,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 //        val intent = Intent(this, LoginActivity::class.java)
         val intent = Intent(this, SettingActivity::class.java)
-        Log.i("MYTAG" , "HI")
+//        Log.i("MYTAG" , "HI")
 
-        val intent = Intent(this, LoginActivity::class.java)
+//        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
 }

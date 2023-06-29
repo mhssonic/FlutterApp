@@ -8,5 +8,6 @@
     <color name="purple">#715C8C</color>
     <color name="ivory">#D7D4DD</color>
     <color name="Periwinkle">#838BC2</color>
+    <color name="bottom_navigation_item_color">#RRGGBB</color>
 
 </resources>
