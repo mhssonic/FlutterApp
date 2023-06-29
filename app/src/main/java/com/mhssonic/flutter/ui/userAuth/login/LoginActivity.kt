@@ -1,11 +1,10 @@
-package com.mhssonic.flutter.ui.userAuth
+package com.mhssonic.flutter.ui.userAuth.login
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +12,7 @@ import com.mhssonic.flutter.databinding.ActivityLoginBinding
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.service.http.RetrofitInstance
 import com.mhssonic.flutter.ui.menu.MainMenuActivity
+import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
         val intentSignUp = Intent(this, SignUpActivity::class.java)
         val intentMainMenu = Intent(this, MainMenuActivity::class.java)
         val serviceApi = RetrofitInstance.getApiService(getSharedPreferences("cookies", MODE_PRIVATE))
-        Log.v(TAG, "-------------------------------------------")
 
 
         binding.editTextPassword.apply {
@@ -67,10 +66,9 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                             startActivity(intentMainMenu)
                         }else{
-                            binding.loginButton.isEnabled = true
                             Toast.makeText(applicationContext, "Your username or password is wrong", Toast.LENGTH_LONG).show()
                         }
-
+                        binding.loginButton.isEnabled = true
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -79,21 +77,11 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
                     }
                 })
-
-                sharedEditor.apply{
-                    putString("token", binding.editTextPassword.text.toString())
-                    commit()
-                }
             }
 
             binding.signUpButton.setOnClickListener {
                 startActivity(intentSignUp)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(applicationContext, sharedPreference.getString("token", ""), Toast.LENGTH_SHORT).show()
     }
 }

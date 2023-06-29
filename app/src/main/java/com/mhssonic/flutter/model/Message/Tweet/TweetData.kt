@@ -8,6 +8,6 @@ open class TweetData : MessageData() {
     @SerializedName("retweet-count") var retweet: Int? = null
     var favestar: Boolean? = null
      var likes: Int? = null
-//  var comment: ArrayList<Int>? = null
-//   var hashtag: ArrayList<String>? = null
+    var comment: ArrayList<Int>? = null
+    var hashtag: ArrayList<String>? = null
 }

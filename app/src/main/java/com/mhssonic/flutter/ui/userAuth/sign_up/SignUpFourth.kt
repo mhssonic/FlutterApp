@@ -1,11 +1,8 @@
-package com.mhssonic.flutter.ui.userAuth
+package com.mhssonic.flutter.ui.userAuth.sign_up
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
-import android.telephony.TelephonyManager
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
 import com.mhssonic.flutter.R
 import java.util.Calendar
 import java.util.Locale

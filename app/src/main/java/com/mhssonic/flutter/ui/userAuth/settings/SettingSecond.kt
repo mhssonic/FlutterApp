@@ -1,4 +1,4 @@
-package com.mhssonic.flutter.ui.userAuth
+package com.mhssonic.flutter.ui.userAuth.settings
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

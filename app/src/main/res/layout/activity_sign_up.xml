@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.userAuth.SignUpActivity">
+    tools:context=".ui.userAuth.sign_up.SignUpActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.mhssonic.flutter.ui.userAuth.SignUpFirst"
+        android:name="com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFirst"
         Of="parent"
         android:layout_width="300dp"
         android:layout_height="450dp"
