@@ -1,12 +1,14 @@
 package com.mhssonic.flutter.ui.userAuth.sign_up
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.model.UserSignUpData
 
 
 class SignUpThird : SignUp() {
@@ -43,9 +45,14 @@ class SignUpThird : SignUp() {
                 emptyToast()
             } else {
                 val bundle = Bundle()
-                bundle.putString("first_name", firstName)
-                bundle.putString("last_name", lastName)
+                val user = arguments?.getSerializable("user") as? UserSignUpData
+                if (user != null) {
+                    user.phoneNumber = phonenumber
+                    user.email = email
+                    Log.i("MYTAG", "${user.toString()}")
 
+                }
+                bundle.putSerializable("user", user)
                 fourthFragment.arguments = bundle
 
                 parentFragmentManager.beginTransaction()

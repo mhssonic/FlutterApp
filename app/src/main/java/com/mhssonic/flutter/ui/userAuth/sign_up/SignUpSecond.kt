@@ -1,6 +1,7 @@
 package com.mhssonic.flutter.ui.userAuth.sign_up
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.model.UserSignUpData
 
 class SignUpSecond : SignUp() {
     private lateinit var btnNextFragment: Button
@@ -25,7 +27,6 @@ class SignUpSecond : SignUp() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up_second, container, false)
 
-
         edUsername = view.findViewById(R.id.ptUserName)
         edPassword = view.findViewById(R.id.ptPassword)
         edConPassword = view.findViewById(R.id.ptConfirmPass)
@@ -38,8 +39,8 @@ class SignUpSecond : SignUp() {
             val username = edUsername.text.toString()
             val password = edPassword.text.toString()
             val conPassword = edConPassword.text.toString()
-            val firstName = arguments?.getString("first_name")
-            val lastName = arguments?.getString("last_name")
+
+
 
             if (password != conPassword){
                 emptyToast()
@@ -51,12 +52,18 @@ class SignUpSecond : SignUp() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                val bundle = Bundle()
-                bundle.putString("first_name", firstName)
-                bundle.putString("last_name", lastName)
-                bundle.putString("username", username)
-                bundle.putString("password", password)
 
+                val bundle = Bundle()
+
+                val user = arguments?.getSerializable("user") as? UserSignUpData
+                if (user != null) {
+                    user.username = username
+                    user.password = password
+                    Log.i("MYTAG", "${user.toString()}")
+
+                }
+
+                bundle.putSerializable("user", user)
                 thirdFragment.arguments = bundle
 
                 parentFragmentManager.beginTransaction()
