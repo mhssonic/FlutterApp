@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.model.UserSignUpData
 import java.util.Calendar
 import java.util.Locale
 
@@ -25,6 +26,8 @@ class SignUpFourth : SignUp() {
     private var selectedDay: Int = 0
     private var selectedMonth: Int = 0
     private var selectedYear: Int = 0
+    private var selectedCountry = ""
+
 
 
     override fun onCreateView(
@@ -44,16 +47,16 @@ class SignUpFourth : SignUp() {
 
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, countryList)
-
+        
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         spinnerCountry.adapter = adapter
 
         spinnerCountry.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCountry = parent?.getItemAtPosition(position).toString()
+//                 val selectedCountry = parent?.getItemAtPosition(position).toString()
+                selectedCountry = parent?.getItemAtPosition(position).toString()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 emptyToast()
             }
@@ -67,20 +70,23 @@ class SignUpFourth : SignUp() {
         }
 
 
-        var birthDate = "$selectedDay-$selectedMonth-$selectedYear\""
-
         btnRegisterFragment.setOnClickListener {
-
+            var birthDate = "$selectedDay-$selectedMonth-$selectedYear\""
             val fourthFragment = SignUpFourth()
 
-            if (1 == 0) {
+            if (1 == 0) {//TODO
                 emptyToast()
             } else {
                 val bundle = Bundle()
                 fourthFragment.arguments = bundle
-                Log.i("MYTAG", "$birthDate")
+              
+                val user = arguments?.getSerializable("user") as? UserSignUpData
+                if (user != null) {
+                    user.birthdate = birthDate
+                    user.country = selectedCountry
+                    Log.i("MYTAG", "${user.toString()}")
 
-
+                }
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, fourthFragment)
                     .addToBackStack(null)

@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.model.UserSignUpData
 
 //TODO signUpForm....
 
 open class SignUp : Fragment() {
-   fun emptyToast(){
+    val user = UserSignUpData()
+
+    fun emptyToast(){
         Toast.makeText(
             requireContext(),
             "لطفا اطلاعات مورد نظر را وارد کنید",

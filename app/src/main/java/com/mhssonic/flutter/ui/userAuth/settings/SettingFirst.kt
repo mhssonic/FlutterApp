@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.mhssonic.flutter.R
 
-
 class SettingFirst : Fragment() {
     private lateinit var btnChangeFragment: Button
 

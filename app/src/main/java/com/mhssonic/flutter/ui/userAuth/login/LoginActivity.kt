@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mhssonic.flutter.databinding.ActivityLoginBinding
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.ui.menu.MainMenuActivity
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -25,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var sharedEditor : SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //TODO make it clean and add if he has already logged in
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,9 +34,9 @@ class LoginActivity : AppCompatActivity() {
         sharedPreference = getSharedPreferences("user_information", MODE_PRIVATE)
         sharedEditor = sharedPreference.edit()
 
-        val intent = Intent(this, SignUpActivity::class.java)
+        val intentSignUp = Intent(this, SignUpActivity::class.java)
+        val intentMainMenu = Intent(this, MainMenuActivity::class.java)
         val serviceApi = RetrofitInstance.getApiService(getSharedPreferences("cookies", MODE_PRIVATE))
-        Log.v(TAG, "-------------------------------------------")
 
 
         binding.editTextPassword.apply {
@@ -50,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
             })
 
             binding.loginButton.setOnClickListener {
+                binding.loginButton.isEnabled = false
                 val data = UserLoginData(binding.editTextUsername.text.toString()
                     , binding.editTextPassword.text.toString())
 
@@ -60,32 +63,25 @@ class LoginActivity : AppCompatActivity() {
                         response: Response<ResponseBody>
                     ) {
                         if (response.isSuccessful) {
-                            Toast.makeText(applicationContext, response.toString(), Toast.LENGTH_LONG).show()
+                            finish()
+                            startActivity(intentMainMenu)
                         }else{
-                            Toast.makeText(applicationContext, "something went wrong", Toast.LENGTH_LONG).show()
+                            Toast.makeText(applicationContext, "Your username or password is wrong", Toast.LENGTH_LONG).show()
                         }
+                        binding.loginButton.isEnabled = true
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        val request = call.request()
+                        binding.loginButton.isEnabled = true
+                        //TODO change it to there is a problem with your network
                         Toast.makeText(applicationContext, "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
                     }
                 })
-
-                sharedEditor.apply{
-                    putString("token", binding.editTextPassword.text.toString())
-                    commit()
-                }
             }
 
             binding.signUpButton.setOnClickListener {
-                startActivity(intent)
+                startActivity(intentSignUp)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(applicationContext, sharedPreference.getString("token", ""), Toast.LENGTH_SHORT).show()
     }
 }

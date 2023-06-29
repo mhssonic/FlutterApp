@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.mhssonic.flutter.R
-
+import com.mhssonic.flutter.model.UserSignUpData
 
 class SignUpFirst : SignUp() {
     private lateinit var btnChangeFragment: Button
@@ -23,8 +23,11 @@ class SignUpFirst : SignUp() {
         val view = inflater.inflate(R.layout.fragment_sign_up_first, container, false)
 
 
-        edFirstName = view.findViewById(R.id.edUsername)
-        edLastName = view.findViewById(R.id.edLastName)
+//         edFirstName = view.findViewById(R.id.edUsername)
+//         edLastName = view.findViewById(R.id.edLastName)
+
+        edFirstName = view.findViewById(R.id.ptFirstName)
+        edLastName = view.findViewById(R.id.ptLastName)
         btnChangeFragment = view.findViewById(R.id.btNext)
 
         btnChangeFragment.setOnClickListener {
@@ -37,7 +40,13 @@ class SignUpFirst : SignUp() {
                 emptyToast()
             } else {
                 val bundle = Bundle()
+
+                user.firstName = firstName
+                user.lastName = lastName
+                bundle.putSerializable("user" , user)
+                val secondFragment = SignUpSecond()
                 secondFragment.arguments = bundle
+
 
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, secondFragment)

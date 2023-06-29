@@ -127,5 +127,4 @@ class SettingSecond : SignUp() {
 
         return countryList.sorted().toMutableList()
     }
-
 }
