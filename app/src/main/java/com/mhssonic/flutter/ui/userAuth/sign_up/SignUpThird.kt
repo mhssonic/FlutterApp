@@ -45,6 +45,7 @@ class SignUpThird : SignUp() {
                 emptyToast()
             } else {
                 val bundle = Bundle()
+
                 val user = arguments?.getSerializable("user") as? UserSignUpData
                 if (user != null) {
                     user.phoneNumber = phonenumber

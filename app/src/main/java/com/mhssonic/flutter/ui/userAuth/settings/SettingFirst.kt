@@ -23,8 +23,9 @@ class SettingFirst : Fragment() {
         btnChangeFragment.setOnClickListener {
 
             val secondFragment = SettingSecond()
+
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, secondFragment)
+            .replace(R.id.fragmentContainerView2, secondFragment)
                 .addToBackStack(null)
                 .commit()
         }

@@ -12,7 +12,6 @@ import com.mhssonic.flutter.model.UserSignUpData
 //TODO signUpForm....
 
 open class SignUp : Fragment() {
-
     val user = UserSignUpData()
 
     fun emptyToast(){
