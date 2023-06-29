@@ -92,6 +92,17 @@
                 android:textAlignment="textStart" />
 
             <EditText
+                android:id="@+id/edBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginVertical="5dp"
+                android:ems="10"
+                android:hint="@string/bio"
+                android:inputType="text"
+                android:textAlignment="textStart" />
+
+            <EditText
                 android:id="@+id/edPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
