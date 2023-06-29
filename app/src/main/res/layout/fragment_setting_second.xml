@@ -8,7 +8,7 @@
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.userAuth.SettingSecond">
+    tools:context=".ui.userAuth.settings.SettingSecond">
 
 
     <LinearLayout

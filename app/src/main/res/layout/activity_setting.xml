@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#25838BC2"
-    tools:context=".ui.userAuth.SettingActivity">
+    tools:context=".ui.userAuth.settings.SettingActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -71,7 +71,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
-        android:name="com.mhssonic.flutter.ui.userAuth.SettingFirst"
+        android:name="com.mhssonic.flutter.ui.userAuth.settings.SettingFirst"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

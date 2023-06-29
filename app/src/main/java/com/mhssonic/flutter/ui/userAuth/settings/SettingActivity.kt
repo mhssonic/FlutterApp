@@ -1,4 +1,4 @@
-package com.mhssonic.flutter.ui.userAuth
+package com.mhssonic.flutter.ui.userAuth.settings
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

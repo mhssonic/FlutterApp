@@ -1,4 +1,4 @@
-package com.mhssonic.flutter.ui.userAuth
+package com.mhssonic.flutter.ui.userAuth.login
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mhssonic.flutter.databinding.ActivityLoginBinding
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

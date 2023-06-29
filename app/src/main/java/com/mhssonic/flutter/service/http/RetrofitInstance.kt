@@ -1,9 +1,7 @@
 package com.mhssonic.flutter.service.http
 
 import android.content.SharedPreferences
-import android.content.Context
 import android.util.Log
-import com.mhssonic.flutter.ui.userAuth.LoginActivity
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl

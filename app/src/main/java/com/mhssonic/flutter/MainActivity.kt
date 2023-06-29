@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mhssonic.flutter.databinding.ActivityMainBinding
 //import com.mhssonic.flutter.ui.menu.MainMenuActivity
-import com.mhssonic.flutter.ui.userAuth.LoginActivity
-import com.mhssonic.flutter.ui.userAuth.SettingActivity
+import com.mhssonic.flutter.ui.userAuth.settings.SettingActivity
 
 private lateinit var binding: ActivityMainBinding
 class MainActivity : AppCompatActivity() {

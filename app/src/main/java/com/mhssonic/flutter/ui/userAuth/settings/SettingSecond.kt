@@ -1,4 +1,4 @@
-package com.mhssonic.flutter.ui.userAuth
+package com.mhssonic.flutter.ui.userAuth.settings
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.ui.userAuth.sign_up.SignUp
+import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFourth
 import java.util.Calendar
 import java.util.Locale
 
@@ -125,4 +127,5 @@ class SettingSecond : SignUp() {
 
         return countryList.sorted().toMutableList()
     }
+
 }
