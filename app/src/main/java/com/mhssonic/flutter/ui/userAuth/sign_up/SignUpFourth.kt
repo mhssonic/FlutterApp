@@ -29,12 +29,12 @@ class SignUpFourth : SignUp() {
     private var selectedCountry = ""
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_sign_up_fourth, container, false)
 
         btnRegisterFragment = view.findViewById(R.id.btRegister)
@@ -47,11 +47,14 @@ class SignUpFourth : SignUp() {
 
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, countryList)
+        
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
         spinnerCountry.adapter = adapter
 
         spinnerCountry.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                 val selectedCountry = parent?.getItemAtPosition(position).toString()
                 selectedCountry = parent?.getItemAtPosition(position).toString()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -76,6 +79,7 @@ class SignUpFourth : SignUp() {
             } else {
                 val bundle = Bundle()
                 fourthFragment.arguments = bundle
+              
                 val user = arguments?.getSerializable("user") as? UserSignUpData
                 if (user != null) {
                     user.birthdate = birthDate
