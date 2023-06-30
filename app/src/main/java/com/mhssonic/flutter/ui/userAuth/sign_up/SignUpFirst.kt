@@ -23,11 +23,9 @@ class SignUpFirst : SignUp() {
         val view = inflater.inflate(R.layout.fragment_sign_up_first, container, false)
 
 
-//         edFirstName = view.findViewById(R.id.edUsername)
-//         edLastName = view.findViewById(R.id.edLastName)
 
-        edFirstName = view.findViewById(R.id.ptFirstName)
-        edLastName = view.findViewById(R.id.ptLastName)
+        edFirstName = view.findViewById(R.id.edFirstName)
+        edLastName = view.findViewById(R.id.edLastName)
         btnChangeFragment = view.findViewById(R.id.btNext)
 
         btnChangeFragment.setOnClickListener {

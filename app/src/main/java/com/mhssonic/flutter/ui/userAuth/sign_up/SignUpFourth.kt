@@ -1,8 +1,8 @@
 package com.mhssonic.flutter.ui.userAuth.sign_up
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +11,23 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.databinding.FragmentSignUpFourthBinding
 import com.mhssonic.flutter.model.UserSignUpData
+import com.mhssonic.flutter.service.http.ApiService
+import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.ui.menu.MainMenuActivity
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.Calendar
 import java.util.Locale
 
 
-class SignUpFourth : SignUp() {
+class SignUpFourth() : SignUp() {
     private lateinit var btnRegisterFragment: Button
     private lateinit var btnPreFragment: Button
 
@@ -28,6 +38,8 @@ class SignUpFourth : SignUp() {
     private var selectedYear: Int = 0
     private var selectedCountry = ""
 
+    private lateinit var binding : FragmentSignUpFourthBinding
+
 
 
     override fun onCreateView(
@@ -35,6 +47,8 @@ class SignUpFourth : SignUp() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentSignUpFourthBinding.inflate(layoutInflater)
+
         val view = inflater.inflate(R.layout.fragment_sign_up_fourth, container, false)
 
         btnRegisterFragment = view.findViewById(R.id.btRegister)
@@ -62,16 +76,20 @@ class SignUpFourth : SignUp() {
             }
         }
 
+        val serviceApi = RetrofitInstance
+            .getApiService(requireActivity()
+            .getSharedPreferences("cookies", AppCompatActivity.MODE_PRIVATE))
 
+        val intentLogin = Intent(requireActivity(), MainMenuActivity::class.java)
 
         edBirthDate = view.findViewById(R.id.editTextBirthDate)
         edBirthDate.setOnClickListener {
             showDate()
         }
 
-
+        btnRegisterFragment.isEnabled = true//TODO really??
         btnRegisterFragment.setOnClickListener {
-            var birthDate = "$selectedDay-$selectedMonth-$selectedYear\""
+            var birthDate = "$selectedYear-$selectedMonth-$selectedDay"
             val fourthFragment = SignUpFourth()
 
             if (1 == 0) {//TODO
@@ -84,15 +102,50 @@ class SignUpFourth : SignUp() {
                 if (user != null) {
                     user.birthdate = birthDate
                     user.country = selectedCountry
-                    Log.i("MYTAG", "${user.toString()}")
 
+                    val locales = Locale.getAvailableLocales()
+                    for (locale in locales) {
+                        if (selectedCountry.equals(locale.displayCountry, ignoreCase = true)) {
+                            user.country = locale.country
+                        }
+                    }
+
+                    btnRegisterFragment.isEnabled = false
+
+                    //TODO sometimes gets a error but sometime dont :/
+                    val call = serviceApi.signUp(user)
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            if (response.isSuccessful) {
+                                if(response.body().toString() == "SUCCESS"){
+                                    requireActivity().finish()
+                                    startActivity(intentLogin)
+                                } else {
+                                    //TODO make a good toast for every error
+                                    emptyToast(response.body()?.string())
+                                }
+
+                            }else{
+                                emptyToast()
+                            }
+                            btnRegisterFragment.isEnabled = true
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            btnRegisterFragment.isEnabled = true
+                            //TODO change it to there is a problem with your network
+                            emptyToast("An error occurred: ${t.message}")
+                        }
+                    })
                 }
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, fourthFragment)
-                    .addToBackStack(null)
-                    .commit()
+//                parentFragmentManager.beginTransaction()
+//                    .replace(R.id.fragmentContainerView, fourthFragment)
+//                    .addToBackStack(null)
+//                    .commit()
             }
-
         }
 
         btnPreFragment.setOnClickListener {
@@ -114,7 +167,7 @@ class SignUpFourth : SignUp() {
                 this.selectedDay = selectedDayOfMonth
                 this.selectedMonth = selectedMonth + 1
                 this.selectedYear = selectedYear
-                val formattedDate = "${selectedDayOfMonth}/${selectedMonth + 1}/${selectedYear}"
+                val formattedDate = "${selectedYear}-${selectedMonth + 1}-${selectedDay}"
                 edBirthDate.setText(formattedDate)
             },
             year,

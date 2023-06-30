@@ -18,15 +18,14 @@ import com.mhssonic.flutter.service.http.RetrofitInstance
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-
 class ViewModelTimeLine : ViewModel(){
-   var sizeOfTimeLineData = MutableLiveData(0)
+    var sizeOfTimeLineData = MutableLiveData(0)
 }
 
-class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragment() {
+class TimeLineFragment(private val sharedPreferencesCookie: SharedPreferences) : Fragment() {
     private lateinit var binding : FragmentTimeLineBinding
     private val compositeDisposable = CompositeDisposable()
-    private var  timeLineData = TimeLineData()
+    private var timeLineData = TimeLineData()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,12 +34,12 @@ class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragmen
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(false)
-        val adaptor = RecycleViewTimeLineAdaptor(timeLineData)
+        val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
+        val adaptor = RecycleViewTimeLineAdaptor(timeLineData, serviceApi, this, compositeDisposable)
         binding.recyclerView.adapter = adaptor
 
-        val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
 
-        val viewModel : ViewModelTimeLine = ViewModelProvider(this)[ViewModelTimeLine::class.java]
+        val viewModel : ViewModelTimeLine = ViewModelProvider(requireActivity())[ViewModelTimeLine::class.java]
 
         viewModel.sizeOfTimeLineData.observe(viewLifecycleOwner, Observer {
             adaptor.notifyDataSetChanged()
