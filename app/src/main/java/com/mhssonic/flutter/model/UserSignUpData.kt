@@ -1,11 +1,12 @@
 package com.mhssonic.flutter.model
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class UserSignUpData : Serializable {
-    var firstName: String = ""
-    var lastName: String = ""
-    var phoneNumber: String= ""
+    @SerializedName("first-name") var firstName: String = ""
+    @SerializedName("last-name") var lastName: String = ""
+    @SerializedName("phone-number") var phoneNumber: String= ""
     var email: String= ""
     var country: String= ""
     var birthdate: String= ""
@@ -14,8 +15,4 @@ class UserSignUpData : Serializable {
     var header: String= ""
     var username: String= ""
     var password: String= ""
-
-    override fun toString(): String {
-        return " $firstName , $lastName , $phoneNumber ,$email , $username , $password , $country "
-    }
 }
