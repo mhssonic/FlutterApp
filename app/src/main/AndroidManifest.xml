@@ -17,6 +17,11 @@
         android:theme="@style/Theme.Flutter"
         tools:targetApi="31">
         <activity
+            android:name=".ui.userAuth.Profile.ProfileActivity"
+            android:exported="false"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/Theme.Flutter" />
+        <activity
             android:name=".ui.menu.CreateTweetActivity"
             android:exported="false"
             android:label="@string/title_activity_create_tweet"
