@@ -35,6 +35,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         replaceFragment(timeLineFragment)
 
+
         binding.bottomNavigation.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.timeLine -> replaceFragment(timeLineFragment)
