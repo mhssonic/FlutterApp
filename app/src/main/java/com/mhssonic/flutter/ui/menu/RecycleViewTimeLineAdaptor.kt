@@ -1,6 +1,5 @@
 package com.mhssonic.flutter.ui.menu
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,13 +16,19 @@ import com.mhssonic.flutter.model.Message.Tweet.TweetData
 import com.mhssonic.flutter.model.Message.getUserData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class ViewModelUserProfile : ViewModel(){
     var userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
 }
 
-class RecycleViewTimeLineAdaptor(val timeLineData: ArrayList<MessageData>, private val serviceApi : ApiService, val ownerFragment: TimeLineFragment): RecyclerView.Adapter<MyViewHolder>() {
+class RecycleViewTimeLineAdaptor(
+    private val timeLineData: ArrayList<MessageData>,
+    private val serviceApi: ApiService,
+    private val ownerFragment: TimeLineFragment,
+    private val compositeDisposable: CompositeDisposable
+): RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.tweet, parent, false)
@@ -50,12 +55,11 @@ class RecycleViewTimeLineAdaptor(val timeLineData: ArrayList<MessageData>, priva
             holder.name.text = it.firstName + it.lastName
             holder.username.text = it.username
         })
-
-        serviceApi.getProfileUser(getUserData("", tweetData.author.toString())).subscribeOn(Schedulers.io()).subscribe({
+        compositeDisposable.add(serviceApi.getProfileUser(getUserData("", tweetData.author.toString())).subscribeOn(Schedulers.io()).subscribe({
             viewModel.userProfileLiveData.postValue(it)
         }, {
             Log.v("MYTAG", "failed ${it.message!!}")
-        })
+        }))
     }
 
 }
