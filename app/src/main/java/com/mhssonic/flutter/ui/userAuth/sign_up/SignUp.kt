@@ -20,5 +20,12 @@ open class SignUp : Fragment() {
             "لطفا اطلاعات مورد نظر را وارد کنید",
             Toast.LENGTH_SHORT
         ).show()
+    }
+    fun emptyToast(text : String){
+        Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
    }
 }

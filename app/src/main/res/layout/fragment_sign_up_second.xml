@@ -35,8 +35,7 @@
             android:drawableRight="@drawable/baseline_emergency_24"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textAlignment="textEnd" />
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/ptConfirmPass"
@@ -49,8 +48,7 @@
             android:drawableRight="@drawable/baseline_emergency_24"
             android:ems="10"
             android:hint="@string/confirm_password"
-            android:inputType="textPassword"
-            android:textAlignment="textEnd" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btNext"
