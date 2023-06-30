@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/ptFirstName"
+            android:id="@+id/edFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -23,7 +23,7 @@
             android:textAlignment="textStart" />
 
         <EditText
-            android:id="@+id/ptLastName"
+            android:id="@+id/edLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

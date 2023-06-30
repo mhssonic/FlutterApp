@@ -22,7 +22,7 @@ class RecycleViewTimeLineAdaptor(val timeLineData: ArrayList<MessageData>): Recy
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val message = timeLineData[position]
+        val message = timeLineData[timeLineData.size - position - 1]
 
         holder.text.text = message.text
     }

@@ -2,6 +2,7 @@ package com.mhssonic.flutter.ui.userAuth.settings
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.mhssonic.flutter.R
 
 class SettingActivity : AppCompatActivity() {

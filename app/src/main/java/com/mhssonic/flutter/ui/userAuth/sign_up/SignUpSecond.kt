@@ -1,7 +1,10 @@
 package com.mhssonic.flutter.ui.userAuth.sign_up
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,14 +36,39 @@ class SignUpSecond : SignUp() {
         btnNextFragment = view.findViewById(R.id.btNext)
         btnPreFragment = view.findViewById(R.id.brPrev)
 
+
+        edPassword.apply {
+            gravity = Gravity.END
+
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    gravity = if (s.isNullOrEmpty())  Gravity.END else Gravity.START
+                }
+            })
+        }
+
+        edConPassword.apply {
+            gravity = Gravity.END
+
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    gravity = if (s.isNullOrEmpty())  Gravity.END else Gravity.START
+                }
+            })
+        }
+
         btnNextFragment.setOnClickListener {
 
             val thirdFragment = SignUpThird()
             val username = edUsername.text.toString()
             val password = edPassword.text.toString()
             val conPassword = edConPassword.text.toString()
-
-
 
             if (password != conPassword){
                 emptyToast()

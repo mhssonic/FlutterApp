@@ -21,6 +21,9 @@
             android:exported="false"
             android:label="@string/title_activity_create_tweet"
             android:theme="@style/Theme.Flutter" />
+            <activity
+            android:name=".ui.userAuth.settings.SettingActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.menu.MainMenuActivity"
             android:exported="false" />

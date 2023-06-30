@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //TODO make it clean and add if he has already logged in
-
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -50,38 +50,38 @@ class LoginActivity : AppCompatActivity() {
                     gravity = if (s.isNullOrEmpty())  Gravity.END else Gravity.START
                 }
             })
+        }
 
-            binding.loginButton.setOnClickListener {
-                binding.loginButton.isEnabled = false
-                val data = UserLoginData(binding.editTextUsername.text.toString()
-                    , binding.editTextPassword.text.toString())
+        binding.loginButton.setOnClickListener {
+            binding.loginButton.isEnabled = false
+            val data = UserLoginData(binding.editTextUsername.text.toString()
+                , binding.editTextPassword.text.toString())
 
-                val call = serviceApi.login(data)
-                call.enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        if (response.isSuccessful) {
-                            finish()
-                            startActivity(intentMainMenu)
-                        }else{
-                            Toast.makeText(applicationContext, "Your username or password is wrong", Toast.LENGTH_LONG).show()
-                        }
-                        binding.loginButton.isEnabled = true
+            val call = serviceApi.login(data)
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        finish()
+                        startActivity(intentMainMenu)
+                    }else{
+                        Toast.makeText(applicationContext, "Your username or password is wrong", Toast.LENGTH_LONG).show()
                     }
+                    binding.loginButton.isEnabled = true
+                }
 
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        binding.loginButton.isEnabled = true
-                        //TODO change it to there is a problem with your network
-                        Toast.makeText(applicationContext, "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
-                    }
-                })
-            }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    binding.loginButton.isEnabled = true
+                    //TODO change it to there is a problem with your network
+                    Toast.makeText(applicationContext, "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
 
-            binding.signUpButton.setOnClickListener {
-                startActivity(intentSignUp)
-            }
+        binding.signUpButton.setOnClickListener {
+            startActivity(intentSignUp)
         }
     }
 }

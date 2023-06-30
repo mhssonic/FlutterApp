@@ -1,6 +1,7 @@
 package com.mhssonic.flutter.service.http
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.fasterxml.jackson.core.JsonParseException
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
