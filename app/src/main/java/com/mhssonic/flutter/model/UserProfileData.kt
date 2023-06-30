@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class UserProfileData : Serializable{
+    var id: Int? = null
     @SerializedName("first-name") var firstName: String = ""
     @SerializedName("last-name") var lastName: String = ""
     var country: String= ""

@@ -89,37 +89,36 @@ class RecycleViewTimeLineAdaptor(
             ownerFragment.requireActivity().startActivity(intent)
         }
 
-        holder.imageLike.setOnClickListener {button ->
-            button.isEnabled = false
-            val call =
-                if(tweetData is RetweetData)
-                    serviceApi.like(MessageIdData(tweetData.retweetedMessageId))
-                else
-                    serviceApi.like(MessageIdData(tweetData.id))
+        val handler = Handler(Looper.getMainLooper())
 
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    if (response.isSuccessful) {
-                        if(response.body()?.string() == "SUCCESS"){
-                            holder.like.text = tweetData.likes?.plus(1).toString()
-                        }else{
-                            Toast.makeText(ownerFragment.requireContext(), response.body()?.string(), Toast.LENGTH_SHORT).show()
-                        }
-                    }else{
-                        Toast.makeText(ownerFragment.requireContext(), "error: ${response.code()}", Toast.LENGTH_SHORT).show()
+        holder.imageLike.setOnClickListener{
+            it.isEnabled = false
+            val id = if(tweetData is RetweetData)
+                tweetData.retweetedMessageId
+            else
+                tweetData.id
+
+            compositeDisposable.add(serviceApi.like(MessageIdData(id)).subscribeOn(
+                Schedulers.io()).subscribe({response ->
+                handler.post {
+                    it.isEnabled = true
+                }
+                val responseBody = response.string()
+                if(responseBody == "SUCCESS"){
+                    handler.post {
+                        holder.like.text = tweetData.likes?.plus(1).toString()
                     }
-                    button.isEnabled = true
+                }else {
+                    handler.post {
+                        Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                    }
                 }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    button.isEnabled = true
-                    //TODO change it to there is a problem with your network
-                    Toast.makeText(ownerFragment.requireContext(), "An error occurred: ${t.message}", Toast.LENGTH_LONG).show()
+            }, {t ->
+                handler.post {
+                    it.isEnabled = true
+                    Log.v("MYTAG", "failed ${t.message!!}")
                 }
-            })
+            }))
         }
     }
 
