@@ -5,17 +5,52 @@
     android:layout_marginBottom="3dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
->
 
-    <TextView
-        android:id="@+id/user_card_search_username"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="@string/username"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            app:cardCornerRadius="60dp">
 
+            <ImageView
+                android:id="@+id/ivTweetProfile"
+                tools:srcCompat="@tools:sample/avatars"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNmae"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/first_name"
+                android:textColor="@color/purple"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tvUsename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/username"
+                android:textColor="@color/Periwinkle" />
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
