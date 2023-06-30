@@ -1,7 +1,9 @@
 package com.mhssonic.flutter.service.http
 
+import com.mhssonic.flutter.model.Message.getUserData
 import com.mhssonic.flutter.model.TimeLineData
 import com.mhssonic.flutter.model.UserLoginData
+import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.model.UserSignUpData
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -20,6 +22,9 @@ interface ApiService {
 
     @POST("/sign-up")
     fun signUp(@Body data: UserSignUpData): Call<ResponseBody>
+
+    @POST("/show-profile")
+    fun getProfileUser(@Body data: getUserData): Observable<UserProfileData>
 
     @POST("/show-timeline")
     @Headers("Content-Type: application/json")

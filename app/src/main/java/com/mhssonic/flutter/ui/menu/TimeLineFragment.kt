@@ -34,10 +34,10 @@ class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragmen
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(false)
-        val adaptor = RecycleViewTimeLineAdaptor(timeLineData)
+        val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
+        val adaptor = RecycleViewTimeLineAdaptor(timeLineData, serviceApi, this)
         binding.recyclerView.adapter = adaptor
 
-        val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
 
         val viewModel : ViewModelTimeLine = ViewModelProvider(requireActivity())[ViewModelTimeLine::class.java]
 
