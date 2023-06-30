@@ -37,15 +37,12 @@
             android:id="@+id/cardView3"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="-250dp"
-            android:layout_marginBottom="450dp"
+            android:layout_marginEnd="30dp"
             android:background="#00FFFFFF"
             app:cardCornerRadius="60dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lin2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/linearLayout2">
 
             <ImageView
                 android:id="@+id/imageView7"
@@ -55,6 +52,7 @@
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
+            android:id="@+id/lin2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
