@@ -167,21 +167,6 @@
             android:textColor="@color/Periwinkle"
             android:textSize="12dp" />
 
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/baseline_assessment_24" />
-
-        <TextView
-            android:id="@+id/tvStat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0"
-            android:textColor="@color/Periwinkle"
-            android:textSize="12dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
