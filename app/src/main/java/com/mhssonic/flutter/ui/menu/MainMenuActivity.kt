@@ -26,8 +26,10 @@ class MainMenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        timeLineFragment = TimeLineFragment(getSharedPreferences("cookies", MODE_PRIVATE))
-        searchFragment = SearchFragment()
+        val sharedPreferences = getSharedPreferences("cookies", MODE_PRIVATE)
+
+        timeLineFragment = TimeLineFragment(sharedPreferences)
+        searchFragment = SearchFragment(sharedPreferences)
         directMessagesFragment = DirectMessagesFragment()
 
         binding = ActivityMainMenuBinding.inflate(layoutInflater)

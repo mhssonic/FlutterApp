@@ -13,15 +13,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.Message.MessageData
 import com.mhssonic.flutter.model.Message.Tweet.TweetData
-import com.mhssonic.flutter.model.Message.getUserData
+import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class ViewModelUserProfile : ViewModel(){
-    var userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
-}
+
+//class ViewModelUserProfile : ViewModel(){
+//    var userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
+//}
 
 class RecycleViewTimeLineAdaptor(
     private val timeLineData: ArrayList<MessageData>,
@@ -49,14 +50,15 @@ class RecycleViewTimeLineAdaptor(
         val commentSize = tweetData.comment?.size ?: 0
         holder.comment.text = commentSize.toString()
 
-        val viewModel : ViewModelUserProfile = ViewModelProvider(ownerFragment)[ViewModelUserProfile::class.java]
+//        val viewModel : ViewModelUserProfile = ViewModelProvider(ownerFragment)[ViewModelUserProfile::class.java]
+        val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
 
-        viewModel.userProfileLiveData.observe(ownerFragment, Observer {it ->
+        userProfileLiveData.observe(ownerFragment, Observer {it ->
             holder.name.text = it.firstName + it.lastName
             holder.username.text = it.username
         })
-        compositeDisposable.add(serviceApi.getProfileUser(getUserData("", tweetData.author.toString())).subscribeOn(Schedulers.io()).subscribe({
-            viewModel.userProfileLiveData.postValue(it)
+        compositeDisposable.add(serviceApi.getProfileUser(getUserDataByUserId(tweetData.author.toString())).subscribeOn(Schedulers.io()).subscribe({
+            userProfileLiveData.postValue(it)
         }, {
             Log.v("MYTAG", "failed ${it.message!!}")
         }))

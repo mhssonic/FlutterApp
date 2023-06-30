@@ -22,10 +22,10 @@ class ViewModelTimeLine : ViewModel(){
     var sizeOfTimeLineData = MutableLiveData(0)
 }
 
-class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragment() {
+class TimeLineFragment(private val sharedPreferencesCookie: SharedPreferences) : Fragment() {
     private lateinit var binding : FragmentTimeLineBinding
     private val compositeDisposable = CompositeDisposable()
-    private var  timeLineData = TimeLineData()
+    private var timeLineData = TimeLineData()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

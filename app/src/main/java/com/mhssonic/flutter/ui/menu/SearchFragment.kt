@@ -1,60 +1,66 @@
 package com.mhssonic.flutter.ui.menu
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhssonic.flutter.R
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mhssonic.flutter.databinding.FragmentSearchBinding
+import com.mhssonic.flutter.model.Message.UsersProfileData
+import com.mhssonic.flutter.model.Message.getUserDataByUsername
+import com.mhssonic.flutter.service.http.RetrofitInstance
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+class ViewModelUsersProfile : ViewModel(){
+    var usersProfileLiveData : MutableLiveData<UsersProfileData> = MutableLiveData(UsersProfileData())
+}
+class SearchFragment(private val sharedPreferencesCookie: SharedPreferences) : Fragment() {
+    private lateinit var binding : FragmentSearchBinding
+    private lateinit var viewModel : ViewModelUsersProfile
+    private val compositeDisposable = CompositeDisposable()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        binding = FragmentSearchBinding.inflate(layoutInflater)
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.setHasFixedSize(false)
+        val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
+        //TODO check the !!
+
+        viewModel = ViewModelProvider(requireActivity())[ViewModelUsersProfile::class.java]
+
+        val adaptor = RecycleViewUsersProfileAdaptor(viewModel.usersProfileLiveData.value!!, serviceApi, this, compositeDisposable)
+        binding.recyclerView.adapter = adaptor
+
+        viewModel.usersProfileLiveData.observe(viewLifecycleOwner, Observer {
+            adaptor.notifyDataSetChanged()
+        })
+
+        compositeDisposable.add(serviceApi.searchUsersProfile(getUserDataByUsername("")).subscribeOn(Schedulers.io()).subscribe({
+
+            viewModel.usersProfileLiveData.postValue(it)
+        }, {
+            Log.v("MYTAG", "failed ${it.message!!}")
+        }))
+
+
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }
