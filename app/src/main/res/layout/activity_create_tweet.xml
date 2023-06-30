@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".CreateTweetActivity">
+    tools:context="com.mhssonic.flutter.ui.menu.createTweet.CreateTweetActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,6 +42,22 @@
                 android:hint="چه خبرا؟"
                 android:inputType="textMultiLine" />
 
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentPoll"
+                android:name="com.mhssonic.flutter.ui.menu.createTweet.PollFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp" />
+
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentImage"
+                android:name="com.mhssonic.flutter.ui.menu.createTweet.ImageFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,21 +65,22 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
+                    android:onClick="openImagePicker"
                     app:srcCompat="@drawable/outline_image_24" />
 
                 <ImageView
                     android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/outline_poll_24" />
 
                 <Button
                     android:id="@+id/btnTweet"
-                    android:layout_width="50dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginStart="100dp"
                     android:layout_marginEnd="10dp"
