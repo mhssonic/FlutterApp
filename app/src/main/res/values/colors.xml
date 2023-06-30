@@ -9,8 +9,8 @@
     <color name="Periwinkle">#838BC2</color>
   
 <!--     <color name="bottom_navigation_item_color">#RRGGBB</color> -->
-    <color name="bottom_navigation_item_color">#FFFFFFFF</color>
-    <color name="bottom_navigation_background">#875CD3</color>
+    <color name="bottom_navigation_item_color">#875CD3</color>
+    <color name="bottom_navigation_background">#FFFFFFFF</color>
     <color name="red">#FF1744</color>
     <color name="light_green">#76FF03</color>
 </resources>

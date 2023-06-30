@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityLoginBinding
 import com.mhssonic.flutter.databinding.ActivityMainBinding
@@ -24,7 +26,7 @@ class MainMenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        timeLineFragment = TimeLineFragment(getSharedPreferences("cookies", AppCompatActivity.MODE_PRIVATE))
+        timeLineFragment = TimeLineFragment(getSharedPreferences("cookies", MODE_PRIVATE))
         searchFragment = SearchFragment()
         directMessagesFragment = DirectMessagesFragment()
 

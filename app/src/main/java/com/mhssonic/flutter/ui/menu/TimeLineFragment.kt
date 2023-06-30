@@ -18,9 +18,8 @@ import com.mhssonic.flutter.service.http.RetrofitInstance
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-
 class ViewModelTimeLine : ViewModel(){
-   var sizeOfTimeLineData = MutableLiveData(0)
+    var sizeOfTimeLineData = MutableLiveData(0)
 }
 
 class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragment() {
@@ -40,7 +39,7 @@ class TimeLineFragment(val sharedPreferencesCookie: SharedPreferences) : Fragmen
 
         val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
 
-        val viewModel : ViewModelTimeLine = ViewModelProvider(this)[ViewModelTimeLine::class.java]
+        val viewModel : ViewModelTimeLine = ViewModelProvider(requireActivity())[ViewModelTimeLine::class.java]
 
         viewModel.sizeOfTimeLineData.observe(viewLifecycleOwner, Observer {
             adaptor.notifyDataSetChanged()
