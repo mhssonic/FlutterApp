@@ -21,7 +21,8 @@ open class SignUp : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
     }
-    fun emptyToast(text : String){
+    fun emptyToast(text : String?){
+        var tempText = text ?: ""
         Toast.makeText(
             requireContext(),
             text,

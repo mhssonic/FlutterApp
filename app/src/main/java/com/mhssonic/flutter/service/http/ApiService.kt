@@ -18,7 +18,7 @@ interface ApiService {
     @POST("/sign-in")
     fun login(@Body data: UserLoginData): Call<ResponseBody>
 
-    @POST("/sign-in")
+    @POST("/sign-up")
     fun signUp(@Body data: UserSignUpData): Call<ResponseBody>
 
     @POST("/show-timeline")
