@@ -119,14 +119,16 @@
             android:layout_marginEnd="1dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_mode_comment_24" />
+            <ImageButton
+                android:id="@+id/imageComment"
+                android:layout_marginLeft="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/baseline_mode_comment_24" />
 
             <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/tvComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,35 +138,37 @@
                 android:textColorLink="@color/Periwinkle"
                 android:textSize="12sp" />
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/outline_loop_24" />
+            <ImageButton
+                android:id="@+id/imageRetweet"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/outline_loop_24" />
 
             <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/tvRetweet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
+                android:text="@string/zero_number"
                 android:textColor="@color/Periwinkle"
                 android:textSize="12dp" />
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/like_border_24" />
+            <ImageButton
+                android:id="@+id/imageLike"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/like_border_24"/>
 
             <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/tvLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
+                android:text="@string/zero_number"
                 android:textColor="@color/Periwinkle"
                 android:textSize="12dp" />
 

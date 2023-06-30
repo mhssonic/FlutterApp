@@ -69,4 +69,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="type_to_search">type to search</string>
+    <string name="zero_number">0</string>
 </resources>

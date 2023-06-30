@@ -18,15 +18,13 @@ import com.mhssonic.flutter.model.Message.getUserDataByUsername
 import com.mhssonic.flutter.service.http.RetrofitInstance
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import android.os.Handler
+import android.os.Looper
 
-
-class ViewModelUsersProfile : ViewModel(){
-    var usersProfileLiveData : MutableLiveData<UsersProfileData> = MutableLiveData(UsersProfileData())
-}
 class SearchFragment(private val sharedPreferencesCookie: SharedPreferences) : Fragment() {
     private lateinit var binding : FragmentSearchBinding
-    private lateinit var viewModel : ViewModelUsersProfile
     private val compositeDisposable = CompositeDisposable()
+    private val usersProfileData = UsersProfileData()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,23 +34,34 @@ class SearchFragment(private val sharedPreferencesCookie: SharedPreferences) : F
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(false)
         val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
-        //TODO check the !!
 
-        viewModel = ViewModelProvider(requireActivity())[ViewModelUsersProfile::class.java]
-
-        val adaptor = RecycleViewUsersProfileAdaptor(viewModel.usersProfileLiveData.value!!, serviceApi, this, compositeDisposable)
+        val adaptor = RecycleViewUsersProfileAdaptor(usersProfileData, serviceApi, this, compositeDisposable)
         binding.recyclerView.adapter = adaptor
 
-        viewModel.usersProfileLiveData.observe(viewLifecycleOwner, Observer {
-            adaptor.notifyDataSetChanged()
-        })
 
-        compositeDisposable.add(serviceApi.searchUsersProfile(getUserDataByUsername("")).subscribeOn(Schedulers.io()).subscribe({
+        val handler = Handler(Looper.getMainLooper())
 
-            viewModel.usersProfileLiveData.postValue(it)
-        }, {
-            Log.v("MYTAG", "failed ${it.message!!}")
-        }))
+        binding.buttonSearch.setOnClickListener {
+            binding.buttonSearch.isEnabled = false
+            compositeDisposable.add(serviceApi.searchUsersProfile(getUserDataByUsername(binding.textSearch.text.toString()))
+                .subscribeOn(Schedulers.io()).subscribe({
+                    usersProfileData.clear()
+                    for(user in it){
+                        usersProfileData.add(user)
+                    }
+                    handler.post {
+                        binding.buttonSearch.isEnabled = true
+                        adaptor.notifyDataSetChanged()
+                    }
+                }, {
+                    handler.post {
+                        binding.buttonSearch.isEnabled = true
+                    }
+                    Log.v("MYTAG", "failed ${it.message!!}")
+                }))
+        }
+
+
 
 
 

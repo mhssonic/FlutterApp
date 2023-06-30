@@ -3,6 +3,7 @@ package com.mhssonic.flutter.service.http
 import com.mhssonic.flutter.model.Message.UsersProfileData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.Message.getUserDataByUsername
+import com.mhssonic.flutter.model.MessageIdData
 import com.mhssonic.flutter.model.TimeLineData
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.model.UserProfileData
@@ -31,4 +32,10 @@ interface ApiService {
     @POST("/show-timeline")
     @Headers("Content-Type: application/json")
     fun getTimeLine(): Observable<TimeLineData>
+
+    @POST("/follow")
+    fun follow(@Body data: getUserDataByUserId): Observable<ResponseBody>
+
+    @POST("/like")
+    fun like(@Body data: MessageIdData): Call<ResponseBody>
 }
