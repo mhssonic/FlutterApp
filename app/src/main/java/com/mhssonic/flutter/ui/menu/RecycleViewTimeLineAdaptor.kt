@@ -1,5 +1,6 @@
 package com.mhssonic.flutter.ui.menu
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -18,12 +19,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.Message.MessageData
+import com.mhssonic.flutter.model.Message.Tweet.RetweetData
 import com.mhssonic.flutter.model.Message.Tweet.TweetData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.MessageIdData
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
+import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.ResponseBody
@@ -56,12 +59,14 @@ class RecycleViewTimeLineAdaptor(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val message = timeLineData[timeLineData.size - position - 1]
         val tweetData = message as TweetData
+        var user = UserProfileData()
 
         holder.text.text = message.text
         holder.like.text = tweetData.likes.toString()
         holder.retweet.text = tweetData.retweet.toString()
         val commentSize = tweetData.comment?.size ?: 0
         holder.comment.text = commentSize.toString()
+        holder.imageProfile.isEnabled = false
 
 //        val viewModel : ViewModelUserProfile = ViewModelProvider(ownerFragment)[ViewModelUserProfile::class.java]
         val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
@@ -69,6 +74,8 @@ class RecycleViewTimeLineAdaptor(
         userProfileLiveData.observe(ownerFragment, Observer {it ->
             holder.name.text = "${it.firstName}  ${it.lastName}"
             holder.username.text = it.username
+            user = it
+            holder.imageProfile.isEnabled = true
         })
         compositeDisposable.add(serviceApi.getProfileUser(getUserDataByUserId(tweetData.author)).subscribeOn(Schedulers.io()).subscribe({
             userProfileLiveData.postValue(it)
@@ -76,10 +83,20 @@ class RecycleViewTimeLineAdaptor(
             Log.v("MYTAG", "failed ${it.message!!}")
         }))
 
+        holder.imageProfile.setOnClickListener{
+            val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
+            intent.putExtra("user", user)
+            ownerFragment.requireActivity().startActivity(intent)
+        }
+
         holder.imageLike.setOnClickListener {button ->
             button.isEnabled = false
+            val call =
+                if(tweetData is RetweetData)
+                    serviceApi.like(MessageIdData(tweetData.retweetedMessageId))
+                else
+                    serviceApi.like(MessageIdData(tweetData.id))
 
-            val call = serviceApi.like(MessageIdData(tweetData.id))
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,
