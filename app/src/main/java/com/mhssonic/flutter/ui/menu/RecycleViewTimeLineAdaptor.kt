@@ -67,7 +67,7 @@ class RecycleViewTimeLineAdaptor(
         val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
 
         userProfileLiveData.observe(ownerFragment, Observer {it ->
-            holder.name.text = it.firstName + it.lastName
+            holder.name.text = "${it.firstName}  ${it.lastName}"
             holder.username.text = it.username
         })
         compositeDisposable.add(serviceApi.getProfileUser(getUserDataByUserId(tweetData.author)).subscribeOn(Schedulers.io()).subscribe({
@@ -117,5 +117,6 @@ class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
     val comment : TextView = itemView.findViewById(R.id.tvComment)
 
     val imageLike : ImageButton = itemView.findViewById(R.id.imageLike)
+    val imageProfile: ImageButton = itemView.findViewById(R.id.ivTweetProfile)
 
 }

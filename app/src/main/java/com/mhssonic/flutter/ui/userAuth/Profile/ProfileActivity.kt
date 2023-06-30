@@ -10,11 +10,26 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityProfileBinding
+import com.mhssonic.flutter.model.UserProfileData
 
-class ProfileActivity : AppCompatActivity() {
-
+class ProfileActivity() : AppCompatActivity() {
+    lateinit var binding: ActivityProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+
+        val user = intent.getSerializableExtra("user") as UserProfileData
+
+
+        binding.tvName.text = "${user.firstName}  ${user.lastName}"
+        binding.tvBio.text = user.biography
+        binding.tvJoin.text = "he/she been in this world since ${user.birthdate}"
+        binding.tvUsername.text = user.username
+
+        binding.tvFollowerCount.text = user.followerCount.toString()
+        binding.tvFollowingCount.text = user.followingCount.toString()
+
+        setContentView(binding.root)
     }
+
 }

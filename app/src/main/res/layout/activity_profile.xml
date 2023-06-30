@@ -51,7 +51,7 @@
                 android:id="@+id/imageView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@drawable/flutter" />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -106,11 +106,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvUsename"
+                android:id="@+id/tvUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
-                android:text="lostInHerDreams"
+                android:text=""
                 android:textAlignment="textEnd"
                 android:textColor="#766E81"
                 android:textSize="16dp" />

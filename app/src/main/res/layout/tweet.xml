@@ -40,11 +40,11 @@
                     android:layout_marginHorizontal="5dp"
                     app:cardCornerRadius="60dp">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivTweetProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:srcCompat="@tools:sample/avatars" />
+                        android:background="@drawable/flutter" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView

@@ -1,5 +1,7 @@
 package com.mhssonic.flutter.ui.menu
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
+import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 
 class RecycleViewUsersProfileAdaptor(
@@ -29,6 +32,12 @@ class RecycleViewUsersProfileAdaptor(
     override fun onBindViewHolder(holder: MyViewUserProfileHolder, position: Int) {
         val user = usersProfileData[position]
         holder.username.text = user.username
+        holder.view.setOnClickListener{
+            val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
+            intent.putExtra("user", user)
+            ownerFragment.requireActivity().startActivity(intent)
+
+        }
     }
 }
 
