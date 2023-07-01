@@ -31,13 +31,16 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreference = getSharedPreferences("user_information", MODE_PRIVATE)
-        sharedEditor = sharedPreference.edit()
+        sharedPreference = getSharedPreferences("cookies", MODE_PRIVATE)
 
         val intentSignUp = Intent(this, SignUpActivity::class.java)
         val intentMainMenu = Intent(this, MainMenuActivity::class.java)
-        val serviceApi = RetrofitInstance.getApiService(getSharedPreferences("cookies", MODE_PRIVATE))
+        val serviceApi = RetrofitInstance.getApiService(sharedPreference)
 
+        if (sharedPreference.getString("token-cookie", null) != null){
+            finish()
+            startActivity(intentMainMenu)
+        }
 
         binding.editTextPassword.apply {
             gravity = Gravity.END
