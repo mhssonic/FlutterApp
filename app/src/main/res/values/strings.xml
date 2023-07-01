@@ -21,6 +21,7 @@
 
 
     <string name="setting">تنظیمات</string>
+    <string name="logout">خروج</string>
     <string name="bio">بیوگرافی</string>
     <string name="heather">+تغییر عکس</string>
     <string name="yourProfile">اطلاعات شخصی</string>

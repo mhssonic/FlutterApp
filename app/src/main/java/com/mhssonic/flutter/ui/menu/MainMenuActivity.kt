@@ -16,6 +16,7 @@ import com.mhssonic.flutter.databinding.ActivityLoginBinding
 import com.mhssonic.flutter.databinding.ActivityMainBinding
 import com.mhssonic.flutter.databinding.ActivityMainMenuBinding
 import com.mhssonic.flutter.ui.menu.createTweet.CreateTweetActivity
+import com.mhssonic.flutter.ui.userAuth.settings.SettingActivity
 
 
 class MainMenuActivity : AppCompatActivity() {
@@ -55,6 +56,13 @@ class MainMenuActivity : AppCompatActivity() {
         val fabTweet: FloatingActionButton = findViewById(R.id.fbTweet)
         fabTweet.setOnClickListener {
             val intent = Intent(this@MainMenuActivity, CreateTweetActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        val fbSetting: FloatingActionButton = findViewById(R.id.fbSetting)
+        fbSetting.setOnClickListener {
+            val intent = Intent(this@MainMenuActivity, SettingActivity::class.java)
             startActivity(intent)
         }
 
