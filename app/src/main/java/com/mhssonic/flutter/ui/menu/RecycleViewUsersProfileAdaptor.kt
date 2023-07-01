@@ -32,6 +32,7 @@ class RecycleViewUsersProfileAdaptor(
     override fun onBindViewHolder(holder: MyViewUserProfileHolder, position: Int) {
         val user = usersProfileData[position]
         holder.username.text = user.username
+        holder.name.text = "${user.firstName} ${user.lastName}"
         holder.view.setOnClickListener{
             val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
             intent.putExtra("user", user)
@@ -43,4 +44,5 @@ class RecycleViewUsersProfileAdaptor(
 
 class MyViewUserProfileHolder(val view: View) : RecyclerView.ViewHolder(view){
     val username : TextView = itemView.findViewById(R.id.user_card_search_username)
+    val name: TextView = itemView.findViewById(R.id.user_card_search_name)
 }
