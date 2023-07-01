@@ -1,5 +1,6 @@
 package com.mhssonic.flutter.service.http
 
+import com.mhssonic.flutter.model.AttachmentIdData
 import com.mhssonic.flutter.model.Message.UsersProfileData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.Message.getUserDataByUsername
@@ -11,9 +12,11 @@ import com.mhssonic.flutter.model.UserSignUpData
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Streaming
 
 interface ApiService {
 //    @Headers("Content-Type : application/json")
@@ -45,4 +48,8 @@ interface ApiService {
 
     @POST("/unlike")
     fun unlike(@Body data: MessageIdData): Observable<ResponseBody>
+
+    @POST("/download-file")
+    @Streaming
+    fun downloadFile(@Body data: AttachmentIdData): Observable<Response<ResponseBody>>
 }

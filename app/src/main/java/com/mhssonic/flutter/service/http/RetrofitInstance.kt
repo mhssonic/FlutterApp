@@ -94,7 +94,7 @@ class RetrofitInstance {
 //            }
             val tokenCookie : String? = sharedPreferences.getString("token-cookie", null)
             if(tokenCookie != null){
-                val cookie = Cookie.parse("https://192.168.1.4:5050".toHttpUrl(), tokenCookie)
+                val cookie = Cookie.parse(RetrofitInstance.BASE_URL.toHttpUrl(), tokenCookie)
                 if(cookie != null){
                     val host = cookie.domain
                     cookieStore[host]?.add(cookie) ?: run {
@@ -147,7 +147,7 @@ class RetrofitInstance {
     }
 
     companion object{
-        private const val BASE_URL = "https://192.168.1.4:5050"
+        val BASE_URL = "https://192.168.143.4:5050"
         private fun getRetrofitInstance(sharedPreferences: SharedPreferences): Retrofit {
 //            val objectMapper: ObjectMapper = jacksonObjectMapper()
 //                .registerModule(SimpleModule()
