@@ -117,7 +117,7 @@ class RetrofitInstance {
     }
 
     companion object{
-        val BASE_URL = "https://192.168.143.4:5050"
+        val BASE_URL = "https://192.168.1.4:5050"
         private fun getRetrofitInstance(sharedPreferences: SharedPreferences): Retrofit {
 //            val objectMapper: ObjectMapper = jacksonObjectMapper()
 //                .registerModule(SimpleModule()

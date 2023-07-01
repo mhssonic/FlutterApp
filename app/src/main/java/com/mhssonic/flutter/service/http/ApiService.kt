@@ -40,12 +40,18 @@ interface ApiService {
     @POST("/follow")
     fun follow(@Body data: getUserDataByUserId): Observable<ResponseBody>
 
+    @POST("/already-follow")
+    fun alreadyFollowed(@Body data: getUserDataByUserId): Observable<ResponseBody>
+
     @POST("/unfollow")
-    fun unfollow(@Body data: MessageIdData): Observable<ResponseBody>
+    fun unfollow(@Body data: getUserDataByUserId): Observable<ResponseBody>
 
 
     @POST("/like")
     fun like(@Body data: MessageIdData): Observable<ResponseBody>
+
+    @POST("/already-liked")
+    fun alreadyLiked(@Body data: MessageIdData): Observable<ResponseBody>
 
     @POST("/unlike")
     fun unlike(@Body data: MessageIdData): Observable<ResponseBody>

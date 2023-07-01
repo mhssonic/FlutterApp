@@ -71,6 +71,11 @@ class RecycleViewTimeLineAdaptor(
         holder.comment.text = commentSize.toString()
         holder.imageProfile.isEnabled = false
 
+        val id = if(tweetData is RetweetData)
+            tweetData.retweetedMessageId
+        else
+            tweetData.id
+
 //        val viewModel : ViewModelUserProfile = ViewModelProvider(ownerFragment)[ViewModelUserProfile::class.java]
         val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
         val uriProfile : MutableLiveData<Uri> = MutableLiveData()
@@ -102,12 +107,16 @@ class RecycleViewTimeLineAdaptor(
 
         val handler = Handler(Looper.getMainLooper())
 
+        val alreadyLikedBeforeMutableLiveData: MutableLiveData<Boolean> = MutableLiveData(holder.alreadyLikedBefore)
+        alreadyLikedBeforeMutableLiveData.observe(ownerFragment, Observer {
+            if(it)
+                holder.imageLike.setColorFilter(ContextCompat.getColor(holder.itemView.context, R.color.purple))
+            else
+                holder.imageLike.setColorFilter(ContextCompat.getColor(holder.itemView.context, R.color.white))
+        })
+
         holder.imageLike.setOnClickListener{
             it.isEnabled = false
-            val id = if(tweetData is RetweetData)
-                tweetData.retweetedMessageId
-            else
-                tweetData.id
 
             compositeDisposable.add(serviceApi.like(MessageIdData(id)).subscribeOn(
                 Schedulers.io()).subscribe({response ->
@@ -117,7 +126,8 @@ class RecycleViewTimeLineAdaptor(
                 val responseBody = response.string()
                 if(responseBody == "SUCCESS"){
                     handler.post {
-                        holder.imageLike.setColorFilter(ContextCompat.getColor(holder.itemView.context, R.color.purple))
+                        holder.alreadyLikedBefore = true
+                        alreadyLikedBeforeMutableLiveData.postValue(true)
                         holder.like.text = tweetData.likes?.plus(1).toString()
                     }
                 }else {
@@ -132,6 +142,22 @@ class RecycleViewTimeLineAdaptor(
                 }
             }))
         }
+
+        compositeDisposable.add(serviceApi.alreadyLiked(MessageIdData(id)).subscribeOn(
+            Schedulers.io()).subscribe({
+            val responseBody = it.string()
+            if(responseBody == "true"){
+                holder.alreadyLikedBefore = true
+                alreadyLikedBeforeMutableLiveData.postValue(true)
+            }else {
+                holder.alreadyLikedBefore = false
+                alreadyLikedBeforeMutableLiveData.postValue(false)
+            }
+        }, {
+            handler.post {
+                Log.v("MYTAG", "failed ${it.message!!}")
+            }
+        }))
     }
 
 }
@@ -146,5 +172,6 @@ class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
 
     val imageLike : ImageButton = itemView.findViewById(R.id.imageLike)
     val imageProfile: ImageButton = itemView.findViewById(R.id.ivTweetProfile)
+    var alreadyLikedBefore = false
 
 }

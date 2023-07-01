@@ -51,8 +51,17 @@ class ProfileActivity : AppCompatActivity() {
         val uriProfile : MutableLiveData<Uri> = MutableLiveData()
         DownloadFileService.getFile(serviceApi, user.avatar , compositeDisposable, uriProfile, this)
 
+
         uriProfile.observe(this, Observer {
             binding.avatar.setImageURI(uriProfile.value)
+        })
+
+        val alreadyFollowed : MutableLiveData<Boolean> = MutableLiveData(false)
+        alreadyFollowed.observe(this, Observer{
+            if(it)
+                binding.btnFollow.text = "دنبال کردن"
+            else
+                binding.btnFollow.text = "فرار کردن"
         })
 
         val uriHeader : MutableLiveData<Uri> = MutableLiveData()
@@ -64,34 +73,66 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.btnFollow.setOnClickListener{
             it.isEnabled = false
-            compositeDisposable.add(serviceApi.follow(getUserDataByUserId(user.id)).subscribeOn(
-                Schedulers.io()).subscribe({response ->
-                handler.post {
-                    it.isEnabled = true
-                }
-                val responseBody = response.string()
-                if(responseBody == "SUCCESS"){
+            if(alreadyFollowed.value == true){
+                compositeDisposable.add(serviceApi.unfollow(getUserDataByUserId(user.id)).subscribeOn(
+                    Schedulers.io()).subscribe({response ->
                     handler.post {
-                        Toast.makeText(applicationContext, "hola", Toast.LENGTH_SHORT).show()
+                        it.isEnabled = true
                     }
-                }else {
+                    val responseBody = response.string()
+                    if(responseBody == "SUCCESS"){
+                        alreadyFollowed.postValue(false)
+                    }else {
+                        handler.post {
+                            Toast.makeText(applicationContext,responseBody, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }, {t ->
                     handler.post {
-                        Toast.makeText(applicationContext,responseBody, Toast.LENGTH_SHORT).show()
+                        it.isEnabled = true
+                        Log.v("MYTAG", "failed ${t.message!!}")
                     }
-                }
-            }, {t ->
-                handler.post {
-                    it.isEnabled = true
-                    Log.v("MYTAG", "failed ${t.message!!}")
-                }
-            }))
+                }))
+            }else{
+                compositeDisposable.add(serviceApi.follow(getUserDataByUserId(user.id)).subscribeOn(
+                    Schedulers.io()).subscribe({response ->
+                    handler.post {
+                        it.isEnabled = true
+                    }
+                    val responseBody = response.string()
+                    if(responseBody == "SUCCESS"){
+                        alreadyFollowed.postValue(true)
+                    }else {
+                        handler.post {
+                            Toast.makeText(applicationContext,responseBody, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }, {t ->
+                    handler.post {
+                        it.isEnabled = true
+                        Log.v("MYTAG", "failed ${t.message!!}")
+                    }
+                }))
+            }
         }
+
+        compositeDisposable.add(serviceApi.alreadyFollowed(getUserDataByUserId(user.id)).subscribeOn(
+            Schedulers.io()).subscribe({
+            val responseBody = it.string()
+            if(responseBody == "true"){
+                alreadyFollowed.postValue(true)
+            }else {
+                alreadyFollowed.postValue(false)
+            }
+        }, {t ->
+            Log.v("MYTAG", "failed ${t.message!!}")
+        }))
+
+
 
         binding.btnPrev.setOnClickListener {
             finish()
         }
-
-
 
         setContentView(binding.root)
     }
