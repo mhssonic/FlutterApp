@@ -1,15 +1,20 @@
 package com.mhssonic.flutter.ui.menu
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
+import com.mhssonic.flutter.service.http.DownloadFileService
 import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 
@@ -33,16 +38,34 @@ class RecycleViewUsersProfileAdaptor(
         val user = usersProfileData[position]
         holder.username.text = user.username
         holder.name.text = "${user.firstName} ${user.lastName}"
-        holder.view.setOnClickListener{
-            val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
-            intent.putExtra("user", user)
-            ownerFragment.requireActivity().startActivity(intent)
 
+        val uriProfile : MutableLiveData<Uri> = MutableLiveData()
+        DownloadFileService.getFile(serviceApi, user.avatar , compositeDisposable, uriProfile, ownerFragment.requireContext())
+
+        uriProfile.observe(ownerFragment, Observer {
+            holder.imageProfile.setImageURI(uriProfile.value)
+        })
+
+
+        holder.view.setOnClickListener{
+            moveToProfile(user)
         }
+
+        holder.imageProfile.setOnClickListener{
+            moveToProfile(user)
+        }
+    }
+
+    private fun moveToProfile(user : UserProfileData){
+        val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
+        intent.putExtra("userProfile", user)
+        ownerFragment.requireActivity().startActivity(intent)
     }
 }
 
 class MyViewUserProfileHolder(val view: View) : RecyclerView.ViewHolder(view){
     val username : TextView = itemView.findViewById(R.id.user_card_search_username)
     val name: TextView = itemView.findViewById(R.id.user_card_search_name)
+
+    val imageProfile: ImageButton = itemView.findViewById(R.id.user_card_search_image_profile)
 }

@@ -95,7 +95,7 @@ class RecycleViewTimeLineAdaptor(
 
         holder.imageProfile.setOnClickListener{
             val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
-            intent.putExtra("user", user)
+            intent.putExtra("userProfile", user)
             ownerFragment.requireActivity().startActivity(intent)
         }
 

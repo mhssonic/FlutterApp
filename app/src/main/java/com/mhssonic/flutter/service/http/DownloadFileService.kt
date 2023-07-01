@@ -27,7 +27,7 @@ class DownloadFileService {
 
                     // Delete any existing file with the same name
                     if (outputFile.exists()) {
-                        outputFile.delete()
+                        return Uri.fromFile(outputFile)
                     }
 
                     val inputStream = responseBody.byteStream()
