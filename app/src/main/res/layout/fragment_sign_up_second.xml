@@ -37,6 +37,17 @@
             android:hint="@string/password"
             android:inputType="textPassword" />
 
+        <TextView
+            android:id="@+id/labelText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/edPassword"
+            android:layout_alignTop="@id/edPassword"
+            android:layout_marginHorizontal="20dp"
+            android:text="*حداقل 8 کارکتر و دست کم یک حرف بزرگ و یک حرف کوچک"
+            android:textColor="#CDCCCC"
+            android:textSize="12sp" />
+
         <EditText
             android:id="@+id/ptConfirmPass"
 

@@ -13,6 +13,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -116,6 +117,7 @@ class RecycleViewTimeLineAdaptor(
                 val responseBody = response.string()
                 if(responseBody == "SUCCESS"){
                     handler.post {
+                        holder.imageLike.setColorFilter(ContextCompat.getColor(holder.itemView.context, R.color.purple))
                         holder.like.text = tweetData.likes?.plus(1).toString()
                     }
                 }else {
