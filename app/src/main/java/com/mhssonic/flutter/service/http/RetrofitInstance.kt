@@ -78,20 +78,6 @@ class RetrofitInstance {
         private val cookieStore = ConcurrentHashMap<String, CopyOnWriteArrayList<Cookie>>()
 
         init {
-            // Load cookies from shared preferences
-//            val cookies = sharedPreferences.getStringSet("cookies", emptySet()) ?: emptySet()
-//            for (cookieString in cookies) {
-//                val cookie = Cookie.parse("https://192.168.1.4:5050".toHttpUrl(), cookieString)
-//                if (cookie != null) {
-//                    val host = cookie.domain
-//                    cookieStore[host]?.add(cookie) ?: run {
-//                        val newList = CopyOnWriteArrayList<Cookie>()
-//                        newList.add(cookie)
-//                        Log.v("CookieList", newList.toString())
-//                        cookieStore[host] = newList
-//                    }
-//                }
-//            }
             val tokenCookie : String? = sharedPreferences.getString("token-cookie", null)
             if(tokenCookie != null){
                 val cookie = Cookie.parse(RetrofitInstance.BASE_URL.toHttpUrl(), tokenCookie)
@@ -120,24 +106,8 @@ class RetrofitInstance {
                     editor.putString("token-cookie", cookie.toString())
                 }
             }
-            //TODO make it more effective
 
-            // Save cookies to shared preferences
-//            val cookieStrings = mutableSetOf<String>()
-//            for (hostCookies in cookieStore.values) {
-//                for (cookie in hostCookies) {
-//                    Log.v("Cookie TAG", cookieStrings.toString())
-//                    cookieStrings.add(cookie.toString())
-//                }
-//            }
-
-
-
-//            Log.v("Cookie TAG", cookieStrings.toString())
-//            editor.putStringSet("cookies", cookieStrings)
             editor.apply()
-//            Log.v("MYTAG", cookies.toString())
-//            cookieStore[url.host] = cookies.toMutableList()
         }
 
         override fun loadForRequest(url: HttpUrl): List<Cookie> {

@@ -1,6 +1,7 @@
 package com.mhssonic.flutter.ui.userAuth.Profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,8 @@ import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -17,6 +20,7 @@ import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityProfileBinding
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.UserProfileData
+import com.mhssonic.flutter.service.http.DownloadFileService
 import com.mhssonic.flutter.service.http.RetrofitInstance
 import com.mhssonic.flutter.ui.userAuth.settings.SettingActivity
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +33,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
 
-        val user = intent.getSerializableExtra("user") as UserProfileData
+        val user = intent.getSerializableExtra("userProfile") as UserProfileData
 
         binding.tvName.text = "${user.firstName}  ${user.lastName}"
         binding.tvBio.text = user.biography
@@ -43,6 +47,20 @@ class ProfileActivity : AppCompatActivity() {
         val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
 
         val handler = Handler(Looper.getMainLooper())
+
+        val uriProfile : MutableLiveData<Uri> = MutableLiveData()
+        DownloadFileService.getFile(serviceApi, user.avatar , compositeDisposable, uriProfile, this)
+
+        uriProfile.observe(this, Observer {
+            binding.avatar.setImageURI(uriProfile.value)
+        })
+
+        val uriHeader : MutableLiveData<Uri> = MutableLiveData()
+        DownloadFileService.getFile(serviceApi, user.header , compositeDisposable, uriHeader, this)
+
+        uriHeader.observe(this, Observer {
+            binding.header.setImageURI(uriHeader.value)
+        })
 
         binding.btnFollow.setOnClickListener{
             it.isEnabled = false

@@ -61,10 +61,6 @@ class SearchFragment(private val sharedPreferencesCookie: SharedPreferences) : F
                 }))
         }
 
-
-
-
-
         return binding.root
     }
 

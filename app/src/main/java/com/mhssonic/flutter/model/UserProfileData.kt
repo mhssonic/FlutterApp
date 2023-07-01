@@ -10,9 +10,10 @@ class UserProfileData : Serializable{
     var country: String= ""
     var birthdate: String= ""
     var biography: String= ""
-    var avatar: String= ""
-    var header: String= ""
+    var avatar: Int? = null
+    var header: Int?= null
     var username: String= ""
     @SerializedName("count-follower") var followerCount: Int = 0
     @SerializedName("count-following") var followingCount: Int = 0
+
 }

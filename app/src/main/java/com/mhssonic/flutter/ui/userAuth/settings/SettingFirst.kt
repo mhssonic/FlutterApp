@@ -1,5 +1,7 @@
 package com.mhssonic.flutter.ui.userAuth.settings
 
+import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,36 +9,38 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.databinding.ActivitySettingBinding
+import com.mhssonic.flutter.databinding.FragmentSettingFirstBinding
+import com.mhssonic.flutter.ui.menu.MainMenuActivity
+import com.mhssonic.flutter.ui.userAuth.login.LoginActivity
 
 class SettingFirst : Fragment() {
-    private lateinit var btnChangeFragment: Button
-    private lateinit var btnPreFragment: Button
+    private lateinit var binding: FragmentSettingFirstBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_setting_first, container, false)
-
-        btnChangeFragment = view.findViewById(R.id.btnSetting)
-
-        btnChangeFragment.setOnClickListener {
-
+        binding = FragmentSettingFirstBinding.inflate(layoutInflater)
+        binding.btnSetting.setOnClickListener {
             val secondFragment = SettingSecond()
-
             parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView2, secondFragment)
+                .replace(R.id.fragmentContainerView2, secondFragment)
                 .addToBackStack(null)
                 .commit()
         }
+        val intentLogin = Intent(requireActivity(), LoginActivity::class.java)
 
-        btnPreFragment = view.findViewById(R.id.btnPrev)
-        btnPreFragment.setOnClickListener {
-            parentFragmentManager.popBackStack()
+        val sharedPreference = requireActivity().getSharedPreferences("cookies", MODE_PRIVATE)
+
+        binding.btnLogout.setOnClickListener{
+            it.isEnabled = false
+            sharedPreference.edit().remove("token-cookie").commit()
+            requireActivity().finish()
+            startActivity(intentLogin)
         }
 
-
-        return view
+        return binding.root
     }
 }

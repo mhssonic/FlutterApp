@@ -1,5 +1,6 @@
 package com.mhssonic.flutter.service.http
 
+import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -13,20 +14,20 @@ import java.io.FileOutputStream
 
 class DownloadFileService {
     companion object{
-        private fun downloadFile(responseBody: ResponseBody?, fileName:String): Uri? {
+        private fun downloadFile(responseBody: ResponseBody?, fileName:String, context: Context): Uri? {
             try {
                 if(responseBody == null)
                     return null
                 else{
-                    val fileDir = File(Environment.getExternalStorageDirectory(), "flutter")
+                    val fileDir = File(context.getExternalFilesDir(null), "flutter")
                     if (!fileDir.exists()) {
-                        fileDir.mkdirs()
+                        Log.v("dododo", fileDir.mkdirs().toString())
                     }
                     val outputFile = File(fileDir, fileName)
 
                     // Delete any existing file with the same name
                     if (outputFile.exists()) {
-                        outputFile.delete()
+                        return Uri.fromFile(outputFile)
                     }
 
                     val inputStream = responseBody.byteStream()
@@ -46,18 +47,18 @@ class DownloadFileService {
                     return Uri.fromFile(outputFile)
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.v("FileSAViNG", e.message!!)
             }
 
             return null
         }
 
-        public fun getFile(serviceApi:ApiService ,attachment: Int?, compositeDisposable: CompositeDisposable, uri: MutableLiveData<Uri>){
+        public fun getFile(serviceApi:ApiService ,attachment: Int?, compositeDisposable: CompositeDisposable, uri: MutableLiveData<Uri>, context: Context){
             compositeDisposable.add(serviceApi.downloadFile(AttachmentIdData(attachment))
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response ->
                     val format = response.headers()["Content-Type"]?.format("file/%s")?.split("/")?.get(1)
-                    val downloadedFileUri = downloadFile(response.body(), "$attachment.$format")
+                    val downloadedFileUri = downloadFile(response.body(), "$attachment.$format", context)
                     if (downloadedFileUri != null) {
                         // Handle the downloaded file URI
                         uri.postValue(downloadedFileUri)

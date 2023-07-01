@@ -1,6 +1,7 @@
 package com.mhssonic.flutter.ui.menu
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -26,6 +27,7 @@ import com.mhssonic.flutter.model.MessageIdData
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
+import com.mhssonic.flutter.service.http.DownloadFileService
 import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -70,13 +72,21 @@ class RecycleViewTimeLineAdaptor(
 
 //        val viewModel : ViewModelUserProfile = ViewModelProvider(ownerFragment)[ViewModelUserProfile::class.java]
         val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
+        val uriProfile : MutableLiveData<Uri> = MutableLiveData()
 
         userProfileLiveData.observe(ownerFragment, Observer {it ->
             holder.name.text = "${it.firstName}  ${it.lastName}"
             holder.username.text = it.username
             user = it
             holder.imageProfile.isEnabled = true
+
+            DownloadFileService.getFile(serviceApi, user.avatar , compositeDisposable, uriProfile, ownerFragment.requireContext())
         })
+
+        uriProfile.observe(ownerFragment, Observer {
+            holder.imageProfile.setImageURI(uriProfile.value)
+        })
+
         compositeDisposable.add(serviceApi.getProfileUser(getUserDataByUserId(tweetData.author)).subscribeOn(Schedulers.io()).subscribe({
             userProfileLiveData.postValue(it)
         }, {
@@ -85,7 +95,7 @@ class RecycleViewTimeLineAdaptor(
 
         holder.imageProfile.setOnClickListener{
             val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
-            intent.putExtra("user", user)
+            intent.putExtra("userProfile", user)
             ownerFragment.requireActivity().startActivity(intent)
         }
 
