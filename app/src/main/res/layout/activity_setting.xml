@@ -29,7 +29,7 @@
             app:srcCompat="@android:drawable/ic_menu_camera" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnHeader"
             android:layout_width="match_parent"
             android:layout_height="29dp"
             android:layout_weight="1"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/linearLayout2">
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/btnAvatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:backgroundTint="@color/Periwinkle"

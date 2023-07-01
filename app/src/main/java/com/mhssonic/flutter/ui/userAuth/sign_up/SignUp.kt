@@ -12,7 +12,7 @@ import com.mhssonic.flutter.model.UserSignUpData
 //TODO signUpForm....
 
 open class SignUp : Fragment() {
-    val user = UserSignUpData()
+    open val user = UserSignUpData()
 
     fun emptyToast(){
         Toast.makeText(

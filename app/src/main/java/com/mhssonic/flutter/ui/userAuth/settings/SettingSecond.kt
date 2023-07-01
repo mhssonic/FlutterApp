@@ -12,6 +12,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.databinding.FragmentCreatTweetBinding
+import com.mhssonic.flutter.databinding.FragmentSettingSecondBinding
+import com.mhssonic.flutter.model.UserSignUpData
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUp
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFourth
 import java.util.Calendar
@@ -19,6 +22,8 @@ import java.util.Locale
 
 
 class SettingSecond : SignUp() {
+    private lateinit var binding: FragmentSettingSecondBinding
+    private lateinit var selectedCountry :String
     private lateinit var btnRegisterFragment: Button
     private lateinit var spinnerCountry: Spinner
     private lateinit var edBirthDate: EditText
@@ -30,22 +35,17 @@ class SettingSecond : SignUp() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentSettingSecondBinding.inflate(layoutInflater)
 
-        val view = inflater.inflate(R.layout.fragment_setting_second, container, false)
-        spinnerCountry = view.findViewById(R.id.spCountry)
-        btnRegisterFragment = view.findViewById(R.id.btnRegister)
+        spinnerCountry = binding.spCountry
+        btnRegisterFragment = binding.btnRegister
 
         val countryList = getCountryList()
         countryList.add(0, "کشور")
-
-
         val adapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, countryList)
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
         spinnerCountry.adapter = adapter
-
         spinnerCountry.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -53,19 +53,18 @@ class SettingSecond : SignUp() {
                 position: Int,
                 id: Long
             ) {
-                val selectedCountry = parent?.getItemAtPosition(position).toString()
+                selectedCountry = parent?.getItemAtPosition(position).toString()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 emptyToast()
             }
         }
-        edBirthDate = view.findViewById(R.id.edBirthDate)
+
+        edBirthDate = binding.edBirthDate
         edBirthDate.setOnClickListener {
             showDate()
         }
-
-
         var birthDate = "$selectedDay-$selectedMonth-$selectedYear\""
 
         btnRegisterFragment.setOnClickListener {
@@ -89,7 +88,22 @@ class SettingSecond : SignUp() {
         }
 
 
-        return view
+        var user = UserSignUpData()
+        user.country = selectedCountry
+        user.password = binding.edPassword.toString()
+        user.firstName = binding.edFirstName.toString()
+        user.lastName = binding.edLastName.toString()
+        user.username = binding.edUsername.toString()
+        user.email = binding.edEmailAdress.toString()
+        user.phoneNumber = binding.edPhone.toString()
+        user.biography = binding.edBio.toString()
+        user.birthdate = birthDate
+
+
+
+
+
+        return binding.root
     }
 
     private fun showDate() {
