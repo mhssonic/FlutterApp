@@ -72,23 +72,17 @@ class SettingSecond : SignUp() {
 
             val fourthFragment = SignUpFourth()
 
-            if (1 == 0) {
-                emptyToast()
-            } else {
-                val bundle = Bundle()
-                fourthFragment.arguments = bundle
-                Log.i("MYTAG", "$birthDate")
+            val bundle = Bundle()
+            fourthFragment.arguments = bundle
+            Log.i("MYTAG", "$birthDate")
 
 
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, fourthFragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, fourthFragment)
+                .addToBackStack(null)
+                .commit()
 
         }
-
-
         return view
     }
 
