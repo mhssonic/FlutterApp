@@ -10,6 +10,7 @@ import com.mhssonic.flutter.R
 
 class SettingFirst : Fragment() {
     private lateinit var btnChangeFragment: Button
+    private lateinit var btnPreFragment: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +30,13 @@ class SettingFirst : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        btnPreFragment = view.findViewById(R.id.btnPrev)
+        btnPreFragment.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+
         return view
     }
 }
