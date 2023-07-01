@@ -122,24 +122,31 @@ class SettingSecond : SignUp() {
             val uriAvatarAttachment : MutableLiveData<Int> = MutableLiveData(null)
             val uriHeaderAttachment: MutableLiveData<Int> = MutableLiveData(null)
 
-            uriHeaderAttachment.observe(requireActivity(), Observer {
-                if((uriAvatar == null || uriAvatarAttachment.value != null) && (it != null || uriHeader == null)) {
-                    userSignUpData.avatar = uriAvatarAttachment.value
-                    userSignUpData.header = it
-                    updateUser(serviceApi, userSignUpData, handler, button)
-                }
-            })
+            if(uriAvatar == null && uriHeader == null){
+                userSignUpData.avatar = null
+                userSignUpData.header = null
+                updateUser(serviceApi, userSignUpData, handler, button)
+            }else{
+                uriHeaderAttachment.observe(requireActivity(), Observer {
+                    if((uriAvatar == null || uriAvatarAttachment.value != null) && (it != null || uriHeader == null)) {
+                        userSignUpData.avatar = uriAvatarAttachment.value
+                        userSignUpData.header = it
+                        updateUser(serviceApi, userSignUpData, handler, button)
+                    }
+                })
 
-            uriAvatarAttachment.observe(requireActivity(), Observer {
-                if((uriHeader == null || uriHeaderAttachment.value != null) && (it != null || uriAvatar == null)) {
-                    userSignUpData.header = uriHeaderAttachment.value
-                    userSignUpData.avatar = it
-                    updateUser(serviceApi, userSignUpData, handler, button)
-                }
-            })
+                uriAvatarAttachment.observe(requireActivity(), Observer {
+                    if((uriHeader == null || uriHeaderAttachment.value != null) && (it != null || uriAvatar == null)) {
+                        userSignUpData.header = uriHeaderAttachment.value
+                        userSignUpData.avatar = it
+                        updateUser(serviceApi, userSignUpData, handler, button)
+                    }
+                })
 
-            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, sharedPreferences, uriAvatarAttachment, compositeDisposable)
-            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, sharedPreferences, uriHeaderAttachment, compositeDisposable)
+                UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, sharedPreferences, uriAvatarAttachment, compositeDisposable)
+                UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, sharedPreferences, uriHeaderAttachment, compositeDisposable)
+            }
+
 
         }
         return view
