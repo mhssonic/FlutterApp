@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mhssonic.flutter.databinding.ActivityMainBinding
 import com.mhssonic.flutter.ui.menu.createTweet.CreateTweetActivity
+import com.mhssonic.flutter.ui.menu.MainMenuActivity
+import com.mhssonic.flutter.ui.userAuth.login.LoginActivity
+import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpActivity
 
 private lateinit var binding: ActivityMainBinding
 class MainActivity : AppCompatActivity() {
@@ -12,8 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        val intent = Intent(this, LoginActivity::class.java)
-        val intent = Intent(this, CreateTweetActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
+//        val intent = Intent(this, MainMenuActivity::class.java)
         startActivity(intent)
     }
 }

@@ -1,60 +1,75 @@
 package com.mhssonic.flutter.ui.menu
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhssonic.flutter.R
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mhssonic.flutter.databinding.FragmentSearchBinding
+import com.mhssonic.flutter.model.Message.UsersProfileData
+import com.mhssonic.flutter.model.Message.getUserDataByUsername
+import com.mhssonic.flutter.service.http.RetrofitInstance
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import android.os.Handler
+import android.os.Looper
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+class SearchFragment(private val sharedPreferencesCookie: SharedPreferences) : Fragment() {
+    private lateinit var binding : FragmentSearchBinding
+    private val compositeDisposable = CompositeDisposable()
+    private val usersProfileData = UsersProfileData()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        binding = FragmentSearchBinding.inflate(layoutInflater)
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.setHasFixedSize(false)
+        val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
+
+        val adaptor = RecycleViewUsersProfileAdaptor(usersProfileData, serviceApi, this, compositeDisposable)
+        binding.recyclerView.adapter = adaptor
+
+
+        val handler = Handler(Looper.getMainLooper())
+
+        binding.buttonSearch.setOnClickListener {
+            binding.buttonSearch.isEnabled = false
+            compositeDisposable.add(serviceApi.searchUsersProfile(getUserDataByUsername(binding.textSearch.text.toString()))
+                .subscribeOn(Schedulers.io()).subscribe({
+                    usersProfileData.clear()
+                    for(user in it){
+                        usersProfileData.add(user)
+                    }
+                    handler.post {
+                        binding.buttonSearch.isEnabled = true
+                        adaptor.notifyDataSetChanged()
+                    }
+                }, {
+                    handler.post {
+                        binding.buttonSearch.isEnabled = true
+                    }
+                    Log.v("MYTAG", "failed ${it.message!!}")
+                }))
+        }
+
+
+
+
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }
