@@ -11,8 +11,8 @@ class UserSignUpData : Serializable {
     var country: String= ""
     var birthdate: String= ""
     var biography: String= ""
-    var avatar: String= ""
-    var header: String= ""
+    var avatar: Int? = null
+    var header: Int? =null
     var username: String= ""
     var password: String= ""
     @SerializedName("confirm-password") var confirmPassword = ""

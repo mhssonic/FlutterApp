@@ -63,4 +63,7 @@ interface ApiService {
     @POST("/upload-file")
     @Streaming
     fun uploadFile(@Body requestBody: RequestBody): Observable<ResponseBody>
+
+    @POST("/update-profile")
+    fun updateProfile(@Body data: UserSignUpData): Observable<ResponseBody>
 }
