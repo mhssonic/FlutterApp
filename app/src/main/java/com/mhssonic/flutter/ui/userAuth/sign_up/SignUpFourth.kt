@@ -120,12 +120,13 @@ class SignUpFourth() : SignUp() {
                             response: Response<ResponseBody>
                         ) {
                             if (response.isSuccessful) {
-                                if(response.body().toString() == "SUCCESS"){
+                                val bodyString = response.body().toString()
+                                if(bodyString == "SUCCESS"){
                                     requireActivity().finish()
                                     startActivity(intentLogin)
                                 } else {
                                     //TODO make a good toast for every error
-                                    emptyToast(response.body()?.string())
+                                    emptyToast(bodyString)
                                 }
 
                             }else{
