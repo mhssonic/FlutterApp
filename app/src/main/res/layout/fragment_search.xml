@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,22 +14,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginVertical="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/Periwinkle"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <EditText
                 android:id="@+id/textSearch"
-                android:layout_width="wrap_content"
+                android:layout_width="340dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
                 android:ems="10"
                 android:hint="@string/type_to_search"
                 android:inputType=""
                 android:text="" />
 
-            <Button
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_search"
-                android:text="@string/search"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@android:drawable/ic_menu_search"
+                app:fabSize="mini" />
 
         </LinearLayout>
 

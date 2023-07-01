@@ -41,6 +41,6 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_create_tweet">CreateTweetActivity</string>
 
-    <string name="type_to_search">type to search</string>
+    <string name="type_to_search">اینجا بنویسید...</string>
     <string name="zero_number">0</string>
 </resources>
