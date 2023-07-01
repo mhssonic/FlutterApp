@@ -58,7 +58,7 @@ class ProfileActivity : AppCompatActivity() {
 
         val alreadyFollowed : MutableLiveData<Boolean> = MutableLiveData(false)
         alreadyFollowed.observe(this, Observer{
-            if(it)
+            if(!it)
                 binding.btnFollow.text = "دنبال کردن"
             else
                 binding.btnFollow.text = "فرار کردن"

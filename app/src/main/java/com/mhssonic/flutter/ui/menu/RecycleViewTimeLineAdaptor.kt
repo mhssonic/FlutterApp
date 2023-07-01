@@ -76,7 +76,8 @@ class RecycleViewTimeLineAdaptor(
         var wholeHashtag = ""
         if(tweetData.hashtag != null){
             for (hashtag in tweetData.hashtag!!){
-                wholeHashtag = wholeHashtag.plus("#${hashtag.replace(' ', '_')}")
+                if(hashtag != "" && hashtag != " ")
+                    wholeHashtag = wholeHashtag.plus("#${hashtag.replace(' ', '_')} ")
             }
         }
         holder.hashtag.text = wholeHashtag
@@ -90,7 +91,7 @@ class RecycleViewTimeLineAdaptor(
         else if(duration.toHours() != 0L)
             textTime = "${duration.toDays()} ساعت پیش  "
         else if(duration.toMinutes() != 0L)
-            textTime = "${duration.toHours()} دقیقه پیش  "
+            textTime = "${duration.toMinutes()} دقیقه پیش  "
         else
             textTime = "اخیرا"
 
