@@ -12,8 +12,8 @@
         android:orientation="vertical">
 
         <EditText
-            android:drawableRight="@drawable/baseline_emergency_24"
-            android:drawableLeft="@drawable/baseline_phone_24"
+            android:drawableEnd="@drawable/baseline_emergency_24"
+            android:drawableStart="@drawable/baseline_phone_24"
 
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
@@ -22,8 +22,7 @@
             android:layout_marginVertical="30dp"
             android:ems="10"
             android:hint="@string/phone_number"
-            android:inputType="phone"
-            android:textAlignment="textEnd" />
+            android:inputType="phone" />
 
         <TextView
 
@@ -37,9 +36,8 @@
             android:textStyle="bold" />
 
         <EditText
-            android:drawableRight="@drawable/baseline_emergency_24"
-
-            android:drawableLeft="@drawable/baseline_alternate_email_24"
+            android:drawableEnd="@drawable/baseline_emergency_24"
+            android:drawableStart="@drawable/baseline_alternate_email_24"
             android:id="@+id/etEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

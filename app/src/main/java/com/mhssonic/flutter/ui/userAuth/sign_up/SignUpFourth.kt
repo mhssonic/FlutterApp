@@ -89,7 +89,7 @@ class SignUpFourth() : SignUp() {
 
         btnRegisterFragment.isEnabled = true//TODO really??
         btnRegisterFragment.setOnClickListener {
-            var birthDate = "$selectedDay-$selectedMonth-$selectedYear\""
+            var birthDate = "$selectedYear-$selectedMonth-$selectedDay"
             val fourthFragment = SignUpFourth()
 
             if (1 == 0) {//TODO
@@ -102,11 +102,17 @@ class SignUpFourth() : SignUp() {
                 if (user != null) {
                     user.birthdate = birthDate
                     user.country = selectedCountry
-                    //TODO change the country
+
+                    val locales = Locale.getAvailableLocales()
+                    for (locale in locales) {
+                        if (selectedCountry.equals(locale.displayCountry, ignoreCase = true)) {
+                            user.country = locale.country
+                        }
+                    }
 
                     btnRegisterFragment.isEnabled = false
 
-
+                    //TODO sometimes gets a error but sometime dont :/
                     val call = serviceApi.signUp(user)
                     call.enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(
@@ -119,7 +125,7 @@ class SignUpFourth() : SignUp() {
                                     startActivity(intentLogin)
                                 } else {
                                     //TODO make a good toast for every error
-                                    emptyToast()
+                                    emptyToast(response.body()?.string())
                                 }
 
                             }else{
@@ -161,7 +167,7 @@ class SignUpFourth() : SignUp() {
                 this.selectedDay = selectedDayOfMonth
                 this.selectedMonth = selectedMonth + 1
                 this.selectedYear = selectedYear
-                val formattedDate = "${selectedDayOfMonth}/${selectedMonth + 1}/${selectedYear}"
+                val formattedDate = "${selectedYear}-${selectedMonth + 1}-${selectedDay}"
                 edBirthDate.setText(formattedDate)
             },
             year,
