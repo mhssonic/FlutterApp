@@ -25,6 +25,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.security.SecureRandom
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.net.ssl.SSLContext
@@ -33,23 +35,29 @@ import javax.net.ssl.SSLSocketFactory
 
 class RetrofitInstance {
 
-//    class PostingTimeDeserializer : JsonDeserializer<LocalDateTime>() {
-//        @Throws(IOException::class)
-//        override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDateTime {
-//            val codec = parser.codec
-//            val node: JsonNode = codec.readTree(parser)
-//
-//            val year = node.get("year").asInt()
-//            val month = node.get("monthValue").asInt()
-//            val day = node.get("dayOfMonth").asInt()
-//            val hour = node.get("hour").asInt()
-//            val minute = node.get("minute").asInt()
-//            val second = node.get("second").asInt()
-//            val nano = node.get("nano").asInt()
-//
-//            return LocalDateTime.of(year, month, day, hour, minute, second, nano)
-//        }
-//    }
+    class LocalDateTimeDeserializer : JsonDeserializer<LocalDateTime> {
+        override fun deserialize(
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
+        ): LocalDateTime? {
+            if (json == null || !json.isJsonObject) {
+                return null
+            }
+
+            val jsonObject = json.asJsonObject
+
+            val year = jsonObject.getAsJsonPrimitive("year").asInt
+            val month = jsonObject.getAsJsonPrimitive("monthValue").asInt
+            val dayOfMonth = jsonObject.getAsJsonPrimitive("dayOfMonth").asInt
+            val hour = jsonObject.getAsJsonPrimitive("hour").asInt
+            val minute = jsonObject.getAsJsonPrimitive("minute").asInt
+            val second = jsonObject.getAsJsonPrimitive("second").asInt
+            val nano = jsonObject.getAsJsonPrimitive("nano").asInt
+
+            return LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, nano)
+        }
+    }
 
     class MessageDataDeserializer : JsonDeserializer<MessageData> {
         override fun deserialize(
@@ -147,6 +155,7 @@ class RetrofitInstance {
                 .cookieJar(cookieJar)
                 .build()
             val gson = GsonBuilder()
+                .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeDeserializer())
                 .registerTypeAdapter(MessageData::class.java, MessageDataDeserializer())
                 .create()
             return Retrofit.Builder()

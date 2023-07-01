@@ -36,6 +36,8 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.Duration
+import java.time.LocalDateTime
 
 
 //class ViewModelUserProfile : ViewModel(){
@@ -78,6 +80,21 @@ class RecycleViewTimeLineAdaptor(
             }
         }
         holder.hashtag.text = wholeHashtag
+
+        val currentDateTime = LocalDateTime.now()
+        val duration = Duration.between(tweetData.postingTime, currentDateTime)
+
+        var textTime = ""
+        if(duration.toDays() != 0L)
+            textTime = "${duration.toDays()} روز پیش  "
+        else if(duration.toHours() != 0L)
+            textTime = "${duration.toDays()} ساعت پیش  "
+        else if(duration.toMinutes() != 0L)
+            textTime = "${duration.toHours()} دقیقه پیش  "
+        else
+            textTime = "اخیرا"
+
+        holder.time.text = textTime
 
         val id = if(tweetData is RetweetData)
             tweetData.retweetedMessageId
