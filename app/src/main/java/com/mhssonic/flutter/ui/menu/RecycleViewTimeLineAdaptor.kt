@@ -125,30 +125,55 @@ class RecycleViewTimeLineAdaptor(
 
         holder.imageLike.setOnClickListener{
             it.isEnabled = false
-
-            compositeDisposable.add(serviceApi.like(MessageIdData(id)).subscribeOn(
-                Schedulers.io()).subscribe({response ->
-                handler.post {
-                    it.isEnabled = true
-                }
-                val responseBody = response.string()
-                if(responseBody == "SUCCESS"){
+            if(holder.alreadyLikedBefore){
+                compositeDisposable.add(serviceApi.unlike(MessageIdData(id)).subscribeOn(
+                    Schedulers.io()).subscribe({response ->
                     handler.post {
-                        holder.alreadyLikedBefore = true
-                        alreadyLikedBeforeMutableLiveData.postValue(true)
-                        holder.like.text = tweetData.likes?.plus(1).toString()
+                        it.isEnabled = true
                     }
-                }else {
+                    val responseBody = response.string()
+                    if(responseBody == "SUCCESS"){
+                        handler.post {
+                            holder.alreadyLikedBefore = false
+                            alreadyLikedBeforeMutableLiveData.postValue(false)
+                            holder.like.text = holder.like.text.toString().toInt().plus(-1).toString()
+                        }
+                    }else {
+                        handler.post {
+                            Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }, {t ->
                     handler.post {
-                        Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                        it.isEnabled = true
+                        Log.v("MYTAG", "failed ${t.message!!}")
                     }
-                }
-            }, {t ->
-                handler.post {
-                    it.isEnabled = true
-                    Log.v("MYTAG", "failed ${t.message!!}")
-                }
-            }))
+                }))
+            } else{
+                compositeDisposable.add(serviceApi.like(MessageIdData(id)).subscribeOn(
+                    Schedulers.io()).subscribe({response ->
+                    handler.post {
+                        it.isEnabled = true
+                    }
+                    val responseBody = response.string()
+                    if(responseBody == "SUCCESS"){
+                        handler.post {
+                            holder.alreadyLikedBefore = true
+                            alreadyLikedBeforeMutableLiveData.postValue(true)
+                            holder.like.text = holder.like.text.toString().toInt().plus(1).toString()
+                        }
+                    }else {
+                        handler.post {
+                            Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }, {t ->
+                    handler.post {
+                        it.isEnabled = true
+                        Log.v("MYTAG", "failed ${t.message!!}")
+                    }
+                }))
+            }
         }
 
         compositeDisposable.add(serviceApi.alreadyLiked(MessageIdData(id)).subscribeOn(
