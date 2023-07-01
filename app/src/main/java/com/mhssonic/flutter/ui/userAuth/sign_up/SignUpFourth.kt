@@ -17,6 +17,7 @@ import com.mhssonic.flutter.databinding.FragmentSignUpFourthBinding
 import com.mhssonic.flutter.model.UserSignUpData
 import com.mhssonic.flutter.service.http.RetrofitInstance
 import com.mhssonic.flutter.ui.menu.MainMenuActivity
+import com.mhssonic.flutter.ui.userAuth.login.LoginActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -78,7 +79,7 @@ class SignUpFourth() : SignUp() {
             .getApiService(requireActivity()
             .getSharedPreferences("cookies", AppCompatActivity.MODE_PRIVATE))
 
-        val intentLogin = Intent(requireActivity(), MainMenuActivity::class.java)
+        val intentLogin = Intent(requireActivity(), LoginActivity::class.java)
 
         edBirthDate = view.findViewById(R.id.editTextBirthDate)
         edBirthDate.setOnClickListener {
@@ -90,61 +91,53 @@ class SignUpFourth() : SignUp() {
             var birthDate = "$selectedYear-$selectedMonth-$selectedDay"
             val fourthFragment = SignUpFourth()
 
-            if (1 == 0) {//TODO
-                emptyToast()
-            } else {
-                val bundle = Bundle()
-                fourthFragment.arguments = bundle
-              
-                val user = arguments?.getSerializable("user") as? UserSignUpData
-                if (user != null) {
-                    user.birthdate = birthDate
-                    user.country = selectedCountry
-                    user.confirmPassword = user.password
+            val bundle = Bundle()
+            fourthFragment.arguments = bundle
 
-                    val locales = Locale.getAvailableLocales()
-                    for (locale in locales) {
-                        if (selectedCountry.equals(locale.displayCountry, ignoreCase = true)) {
-                            user.country = locale.country
+            val user = arguments?.getSerializable("user") as? UserSignUpData
+            if (user != null) {
+                user.birthdate = birthDate
+                user.country = selectedCountry
+                user.confirmPassword = user.password
+
+                val locales = Locale.getAvailableLocales()
+                for (locale in locales) {
+                    if (selectedCountry.equals(locale.displayCountry, ignoreCase = true)) {
+                        user.country = locale.country
+                    }
+                }
+
+                btnRegisterFragment.isEnabled = false
+
+
+                val call = serviceApi.signUp(user)
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if (response.isSuccessful) {
+                            val bodyString = response.body()?.string()
+                            if(bodyString == "SUCCESS"){
+                                requireActivity().finish()
+                                startActivity(intentLogin)
+                            } else {
+                                //TODO make a good toast for every error
+                                emptyToast(bodyString)
+                            }
+
+                        }else{
+                            emptyToast()
                         }
+                        btnRegisterFragment.isEnabled = true
                     }
 
-                    btnRegisterFragment.isEnabled = false
-
-
-                    val call = serviceApi.signUp(user)
-                    call.enqueue(object : Callback<ResponseBody> {
-                        override fun onResponse(
-                            call: Call<ResponseBody>,
-                            response: Response<ResponseBody>
-                        ) {
-                            if (response.isSuccessful) {
-                                val bodyString = response.body()?.string()
-                                if(bodyString == "SUCCESS"){
-                                    requireActivity().finish()
-                                    startActivity(intentLogin)
-                                } else {
-                                    //TODO make a good toast for every error
-                                    emptyToast(bodyString)
-                                }
-
-                            }else{
-                                emptyToast()
-                            }
-                            btnRegisterFragment.isEnabled = true
-                        }
-
-                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            btnRegisterFragment.isEnabled = true
-                            //TODO change it to there is a problem with your network
-                            emptyToast("An error occurred: ${t.message}")
-                        }
-                    })
-                }
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.fragmentContainerView, fourthFragment)
-//                    .addToBackStack(null)
-//                    .commit()
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        btnRegisterFragment.isEnabled = true
+                        //TODO change it to there is a problem with your network
+                        emptyToast("An error occurred: ${t.message}")
+                    }
+                })
             }
         }
 

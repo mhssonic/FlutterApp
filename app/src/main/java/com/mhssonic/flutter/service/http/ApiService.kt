@@ -10,6 +10,7 @@ import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.model.UserSignUpData
 import io.reactivex.Observable
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -52,4 +53,8 @@ interface ApiService {
     @POST("/download-file")
     @Streaming
     fun downloadFile(@Body data: AttachmentIdData): Observable<Response<ResponseBody>>
+
+    @POST("/upload-file")
+    @Streaming
+    fun uploadFile(@Body requestBody: RequestBody): Observable<ResponseBody>
 }
