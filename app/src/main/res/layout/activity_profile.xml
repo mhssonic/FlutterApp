@@ -92,6 +92,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:text="mahya"
+                android:textAlignment="textEnd"
+                android:textColor="#353E57"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,17 +194,6 @@
                     android:textColor="#333F63"
                     android:textSize="16dp" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
-                android:text="mahya"
-                android:textAlignment="textEnd"
-                android:textColor="#353E57"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnPrev"
