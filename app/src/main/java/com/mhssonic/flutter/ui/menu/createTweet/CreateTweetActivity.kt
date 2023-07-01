@@ -9,6 +9,8 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.ui.AppBarConfiguration
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityCreateTweetBinding
+import java.io.BufferedInputStream
+import java.io.InputStream
 
 class CreateTweetActivity : AppCompatActivity() {
 
@@ -42,6 +44,26 @@ class CreateTweetActivity : AppCompatActivity() {
                 putParcelable("imageUri", selectedImageUri)
             }
             Log.i("MYTAG" , "$selectedImageUri")
+
+            val inputStream: InputStream? = selectedImageUri?.let {
+                contentResolver.openInputStream(
+                    it
+                )
+            }
+            val bufferedInputStream = BufferedInputStream(inputStream)
+            val bufferSize = 1024 // or any other suitable buffer size
+            val buffer = ByteArray(bufferSize)
+            var bytesRead: Int
+            var totalBytes = 0
+            while (bufferedInputStream.read(buffer).also { bytesRead = it } != -1) {
+                totalBytes += bytesRead
+            }
+
+            val imageSizeBytes = totalBytes
+
+
+
+
 
             imageFragment.arguments = bundle
 
