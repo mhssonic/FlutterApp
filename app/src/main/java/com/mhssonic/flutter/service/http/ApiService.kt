@@ -2,6 +2,7 @@ package com.mhssonic.flutter.service.http
 
 import com.mhssonic.flutter.model.AttachmentIdData
 import com.mhssonic.flutter.model.Message.UsersProfileData
+import com.mhssonic.flutter.model.Message.create_message.TweetCreateData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.Message.getUserDataByUsername
 import com.mhssonic.flutter.model.MessageIdData
@@ -66,4 +67,7 @@ interface ApiService {
 
     @POST("/update-profile")
     fun updateProfile(@Body data: UserSignUpData): Observable<ResponseBody>
+
+    @POST("/tweet")
+    fun tweet(@Body data: TweetCreateData): Observable<ResponseBody>
 }

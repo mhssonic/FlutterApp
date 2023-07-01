@@ -37,7 +37,7 @@ class SettingActivity : AppCompatActivity() {
         }
 
 
-        val secondFragment = SettingSecond()
+        val secondFragment = SettingFirst()
         bundle.putSerializable("userUri", userUri)
         secondFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
