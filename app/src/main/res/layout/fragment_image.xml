@@ -17,7 +17,7 @@
             android:id="@+id/cd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="20dp">
 
 
@@ -51,6 +51,7 @@
             android:layout_marginHorizontal="10dp"
             android:clickable="true"
             android:src="@android:drawable/ic_menu_add"
+            android:visibility="gone"
             app:fabSize="mini" />
     </LinearLayout>
 
