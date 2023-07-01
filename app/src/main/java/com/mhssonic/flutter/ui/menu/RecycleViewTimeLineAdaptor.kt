@@ -71,6 +71,14 @@ class RecycleViewTimeLineAdaptor(
         holder.comment.text = commentSize.toString()
         holder.imageProfile.isEnabled = false
 
+        var wholeHashtag = ""
+        if(tweetData.hashtag != null){
+            for (hashtag in tweetData.hashtag!!){
+                wholeHashtag = wholeHashtag.plus("#${hashtag.replace(' ', '_')}")
+            }
+        }
+        holder.hashtag.text = wholeHashtag
+
         val id = if(tweetData is RetweetData)
             tweetData.retweetedMessageId
         else
@@ -81,9 +89,9 @@ class RecycleViewTimeLineAdaptor(
         val uriProfile : MutableLiveData<Uri> = MutableLiveData()
 
         userProfileLiveData.observe(ownerFragment, Observer {it ->
+            user = it
             holder.name.text = "${it.firstName}  ${it.lastName}"
             holder.username.text = it.username
-            user = it
             holder.imageProfile.isEnabled = true
 
             DownloadFileService.getFile(serviceApi, user.avatar , compositeDisposable, uriProfile, ownerFragment.requireContext())
@@ -169,6 +177,8 @@ class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
     val like : TextView = itemView.findViewById(R.id.tvLike)
     val retweet : TextView = itemView.findViewById(R.id.tvRetweet)
     val comment : TextView = itemView.findViewById(R.id.tvComment)
+    val hashtag: TextView = itemView.findViewById(R.id.tvHashtags)
+    val time: TextView = itemView.findViewById((R.id.tvTIME))
 
     val imageLike : ImageButton = itemView.findViewById(R.id.imageLike)
     val imageProfile: ImageButton = itemView.findViewById(R.id.ivTweetProfile)

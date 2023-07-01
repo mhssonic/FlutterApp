@@ -101,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:textColor="@color/light_blue"
             android:text="@string/hashtag"
             tools:layout_editor_absoluteX="72dp"
             tools:layout_editor_absoluteY="325dp" />

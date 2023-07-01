@@ -104,8 +104,8 @@ class SettingSecond : SignUp() {
 
 
             val userSignUpData = UserSignUpData()
-            val uriAvatar = Uri()
-            val uriHeader = Uri()
+            val uriAvatar : Uri
+            val uriHeader : Uri
 
             val handler = Handler(Looper.getMainLooper())
 
@@ -128,8 +128,8 @@ class SettingSecond : SignUp() {
                 }
             })
 
-            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, serviceApi, uriAvatarAttachment, compositeDisposable)
-            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, serviceApi, uriHeaderAttachment, compositeDisposable)
+//            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, serviceApi, uriAvatarAttachment, compositeDisposable)
+//            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, serviceApi, uriHeaderAttachment, compositeDisposable)
 
         }
         return view
