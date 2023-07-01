@@ -112,7 +112,7 @@ class SignUpFourth() : SignUp() {
 
                     btnRegisterFragment.isEnabled = false
 
-                    //TODO sometimes gets a error but sometime dont :/
+
                     val call = serviceApi.signUp(user)
                     call.enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(
@@ -120,7 +120,7 @@ class SignUpFourth() : SignUp() {
                             response: Response<ResponseBody>
                         ) {
                             if (response.isSuccessful) {
-                                val bodyString = response.body().toString()
+                                val bodyString = response.body()?.string()
                                 if(bodyString == "SUCCESS"){
                                     requireActivity().finish()
                                     startActivity(intentLogin)
