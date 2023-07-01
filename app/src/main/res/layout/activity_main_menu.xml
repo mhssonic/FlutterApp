@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/Periwinkle"
+        android:background="@color/dark_blue"
         android:theme="?attr/actionBarTheme"
         app:contentInsetStart="0dp"
         app:titleMargin="0dp">
@@ -61,9 +61,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#F0B0B6DC"
-        app:itemIconTint="@color/dark_blue"
-        app:itemTextColor="@color/dark_blue"
+        android:background="@color/dark_blue"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation_menu" />
 
 
