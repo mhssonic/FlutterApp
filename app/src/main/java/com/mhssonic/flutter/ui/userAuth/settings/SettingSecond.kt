@@ -22,6 +22,7 @@ import com.mhssonic.flutter.model.UserSignUpData
 import com.mhssonic.flutter.model.UserUri
 import com.mhssonic.flutter.service.http.ApiService
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.service.http.UploadFileService
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUp
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFourth
 import io.reactivex.disposables.CompositeDisposable
@@ -106,11 +107,9 @@ class SettingSecond : SignUp() {
             val userSignUpData = UserSignUpData()
             val userUri = arguments?.getSerializable("userUri") as? UserUri
 
-            if (userUri != null) {
-                val headerUri = userUri.headerUri
-                val avatarUri = userUri.avatarUri
-                // Use the properties as needed
-            }
+            val uriHeader = userUri?.headerUri
+            val uriAvatar = userUri?.avatarUri
+
 
             val handler = Handler(Looper.getMainLooper())
 
@@ -133,8 +132,8 @@ class SettingSecond : SignUp() {
                 }
             })
 
-//            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, serviceApi, uriAvatarAttachment, compositeDisposable)
-//            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, serviceApi, uriHeaderAttachment, compositeDisposable)
+            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, serviceApi, uriAvatarAttachment, compositeDisposable)
+            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, serviceApi, uriHeaderAttachment, compositeDisposable)
 
         }
         return view

@@ -12,8 +12,9 @@ import java.io.InputStream
 
 class UploadFileService {
     companion object{
-        fun uploadFile(fileUri: Uri, contentResolver: ContentResolver, serviceApi: ApiService, attachmentMutable: MutableLiveData<Int>, compositeDisposable: CompositeDisposable){
-
+        fun uploadFile(fileUri: Uri?, contentResolver: ContentResolver, serviceApi: ApiService, attachmentMutable: MutableLiveData<Int>, compositeDisposable: CompositeDisposable){
+            if(fileUri == null)
+                return
             val inputStream: InputStream? = contentResolver.openInputStream(fileUri)
             val format = contentResolver.getType(fileUri)
             val contentType = "file/$format".toMediaTypeOrNull()
