@@ -1,5 +1,6 @@
 package com.mhssonic.flutter.ui.userAuth.Profile
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -21,6 +22,7 @@ import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.DownloadFileService
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.ui.userAuth.settings.SettingActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
@@ -84,6 +86,12 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }))
         }
+
+        binding.btnPrev.setOnClickListener {
+            finish()
+        }
+
+
 
         setContentView(binding.root)
     }

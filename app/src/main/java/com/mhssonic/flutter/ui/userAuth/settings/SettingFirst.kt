@@ -30,7 +30,6 @@ class SettingFirst : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-
         val intentLogin = Intent(requireActivity(), LoginActivity::class.java)
 
         val sharedPreference = requireActivity().getSharedPreferences("cookies", MODE_PRIVATE)
