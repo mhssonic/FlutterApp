@@ -22,6 +22,7 @@ import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserSignUpData
 import com.mhssonic.flutter.service.http.ApiService
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.service.http.UploadFileService
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUp
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFourth
 import io.reactivex.disposables.CompositeDisposable
@@ -86,7 +87,8 @@ class SettingSecond : SignUp() {
             AppCompatActivity.MODE_PRIVATE
         ))
 
-        btnRegisterFragment.setOnClickListener {
+        btnRegisterFragment.setOnClickListener {button ->
+            button.isEnabled = false
             val fourthFragment = SignUpFourth()
 
             val bundle = Bundle()
@@ -114,7 +116,7 @@ class SettingSecond : SignUp() {
                 if(uriAvatarAttachment.value != null && it != null) {
                     userSignUpData.avatar = uriAvatarAttachment.value
                     userSignUpData.header = it
-                    updateUser(serviceApi, userSignUpData, handler)
+                    updateUser(serviceApi, userSignUpData, handler, button)
                 }
             })
 
@@ -122,23 +124,28 @@ class SettingSecond : SignUp() {
                 if(uriHeaderAttachment.value != null && it != null) {
                     userSignUpData.header = uriHeaderAttachment.value
                     userSignUpData.avatar = it
-                    updateUser(serviceApi, userSignUpData, handler)
+                    updateUser(serviceApi, userSignUpData, handler, button)
                 }
             })
+
+            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, serviceApi, uriAvatarAttachment, compositeDisposable)
+            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, serviceApi, uriHeaderAttachment, compositeDisposable)
 
         }
         return view
     }
 
-    private fun updateUser(serviceApi: ApiService, userSignUpData : UserSignUpData, handler: Handler){
+    private fun updateUser(serviceApi: ApiService, userSignUpData : UserSignUpData, handler: Handler, view: View){
         compositeDisposable.add(serviceApi.updateProfile(userSignUpData).subscribeOn(Schedulers.io()).subscribe({
             handler.post {
                 val responseBody = it.string()
                 Toast.makeText(requireContext(), responseBody, Toast.LENGTH_SHORT).show()
+                view.isEnabled = true
             }
         }, {
             handler.post {
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                view.isEnabled = true
             }
             Log.v("MYTAG", "failed ${it.message!!}")
         }))
