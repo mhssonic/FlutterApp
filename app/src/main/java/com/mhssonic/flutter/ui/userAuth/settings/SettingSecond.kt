@@ -1,7 +1,6 @@
 package com.mhssonic.flutter.ui.userAuth.settings
 
 import android.app.DatePickerDialog
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,9 +19,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserSignUpData
+import com.mhssonic.flutter.model.UserUri
 import com.mhssonic.flutter.service.http.ApiService
 import com.mhssonic.flutter.service.http.RetrofitInstance
-import com.mhssonic.flutter.service.http.UploadFileService
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUp
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFourth
 import io.reactivex.disposables.CompositeDisposable
@@ -103,9 +102,15 @@ class SettingSecond : SignUp() {
 
 
 
+
             val userSignUpData = UserSignUpData()
-            val uriAvatar : Uri
-            val uriHeader : Uri
+            val userUri = arguments?.getSerializable("userUri") as? UserUri
+
+            if (userUri != null) {
+                val headerUri = userUri.headerUri
+                val avatarUri = userUri.avatarUri
+                // Use the properties as needed
+            }
 
             val handler = Handler(Looper.getMainLooper())
 

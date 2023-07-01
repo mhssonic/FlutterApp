@@ -70,6 +70,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp" />
 
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentVideo"
+                android:name="com.mhssonic.flutter.ui.menu.createTweet.VideoFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <EditText
                 android:id="@+id/edHashtag"
                 android:layout_width="match_parent"
@@ -101,6 +107,19 @@
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/outline_poll_24" />
+
+                <FrameLayout
+                    android:id="@+id/containerVideo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/ivVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/baseline_video_library_24" />
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/btnTweet"

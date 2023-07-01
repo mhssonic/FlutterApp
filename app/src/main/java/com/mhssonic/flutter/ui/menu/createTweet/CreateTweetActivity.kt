@@ -15,14 +15,23 @@ import java.io.InputStream
 class CreateTweetActivity : AppCompatActivity() {
 
     private val PICK_IMAGE_REQUEST = 1
+    private val PICK_VIDEO_REQUEST = 2
+
+    var flag = 1
 
     private lateinit var binding: ActivityCreateTweetBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
         binding = ActivityCreateTweetBinding.inflate(layoutInflater)
+
+        binding.ivVideo.setOnClickListener {
+            flag =2
+            openVideoPicker()
+        }
+
+
         setContentView(binding.root)
         }
 
@@ -32,18 +41,25 @@ class CreateTweetActivity : AppCompatActivity() {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
     }
 
+    private fun openVideoPicker() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "video/*"
+        startActivityForResult(Intent.createChooser(intent, "Select Video"), PICK_VIDEO_REQUEST)
+
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-            val selectedImageUri = data.data
+        if (flag == 1){
+            if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
+                val selectedImageUri = data.data
 
-            val imageFragment = ImageFragment()
-            Log.i("MYTAG" , "$selectedImageUri")
-            val bundle = Bundle().apply {
-                putParcelable("imageUri", selectedImageUri)
-            }
-            Log.i("MYTAG" , "$selectedImageUri")
+                val imageFragment = ImageFragment()
+                Log.i("MYTAG" , "$selectedImageUri")
+                val bundle = Bundle().apply {
+                    putParcelable("imageUri", selectedImageUri)
+                }
+                Log.i("MYTAG" , "$selectedImageUri")
 
             val inputStream: InputStream? = selectedImageUri?.let {
                 contentResolver.openInputStream(
@@ -65,11 +81,34 @@ class CreateTweetActivity : AppCompatActivity() {
 
 
 
-            imageFragment.arguments = bundle
+                imageFragment.arguments = bundle
 
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentImage, imageFragment)
-                .commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentImage, imageFragment)
+                    .commit()
+            }
+        }else{
+            super.onActivityResult(requestCode, resultCode, data)
+
+            if (requestCode == PICK_VIDEO_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
+                val selectedVideoUri = data.data
+                Log.i("MYTAG" , "$selectedVideoUri")
+
+                val videoFragment = VideoFragment()
+
+                val bundle = Bundle().apply {
+                    putParcelable("videoUri", selectedVideoUri)
+                }
+
+                videoFragment.arguments = bundle
+
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentVideo, videoFragment)
+                    .commit()
+            }
         }
+
     }
+
+
 }

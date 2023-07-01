@@ -134,6 +134,8 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
+
+
         setContentView(binding.root)
     }
 
