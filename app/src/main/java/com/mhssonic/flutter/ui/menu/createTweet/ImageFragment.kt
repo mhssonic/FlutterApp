@@ -34,11 +34,14 @@ class ImageFragment : Fragment() {
         }
 
         val cd = view.findViewById<CardView>(R.id.cd)
+        val fabAdd = view.findViewById<FloatingActionButton>(R.id.fbtAdd)
 
 
         if (imageUri != null){
             count++
             cd.visibility = VISIBLE
+            fabAdd.visibility = VISIBLE
+
         }
 
         var imageName = "imageView$count"
@@ -52,10 +55,10 @@ class ImageFragment : Fragment() {
         fabRemove.setOnClickListener {
             val parentLayout = view.findViewById<CardView>(R.id.cd)
             fabRemove.visibility = GONE
+            fabAdd.visibility = GONE
             parentLayout.removeView(imageView)
         }
 
-        val fabAdd = view.findViewById<FloatingActionButton>(R.id.fbtAdd)
         fabAdd.setOnClickListener {
         }
 
