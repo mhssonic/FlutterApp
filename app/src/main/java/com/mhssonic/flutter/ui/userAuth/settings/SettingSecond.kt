@@ -1,6 +1,9 @@
 package com.mhssonic.flutter.ui.userAuth.settings
 
 import android.app.DatePickerDialog
+import android.content.ContentResolver
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -20,13 +23,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserSignUpData
+import com.mhssonic.flutter.model.UserUri
 import com.mhssonic.flutter.service.http.ApiService
+import com.mhssonic.flutter.service.http.InputStreamRequestBody
 import com.mhssonic.flutter.service.http.RetrofitInstance
 import com.mhssonic.flutter.service.http.UploadFileService
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUp
 import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFourth
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import java.io.InputStream
 import java.util.Calendar
 import java.util.Locale
 
@@ -83,29 +90,32 @@ class SettingSecond : SignUp() {
 
         var birthDate = "$selectedDay-$selectedMonth-$selectedYear\""
 
-        val serviceApi = RetrofitInstance.getApiService(requireActivity().getSharedPreferences("cookies",
-            AppCompatActivity.MODE_PRIVATE
-        ))
+            val sharedPreferences = requireContext().getSharedPreferences("cookies", MODE_PRIVATE)
+            val serviceApi = RetrofitInstance.getApiService(sharedPreferences)
 
         btnRegisterFragment.setOnClickListener {button ->
             button.isEnabled = false
-            val fourthFragment = SignUpFourth()
+//            val fourthFragment = SignUpFourth()
 
             val bundle = Bundle()
-            fourthFragment.arguments = bundle
+//            fourthFragment.arguments = bundle
             Log.i("MYTAG", "$birthDate")
 
 
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, fourthFragment)
-                .addToBackStack(null)
-                .commit()
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.fragmentContainerView, fourthFragment)
+//                .addToBackStack(null)
+//                .commit()
+
 
 
 
             val userSignUpData = UserSignUpData()
-            val uriAvatar : Uri
-            val uriHeader : Uri
+            val userUri = arguments?.getSerializable("userUri") as? UserUri
+
+            val uriHeader = userUri?.headerUri
+            val uriAvatar = userUri?.avatarUri
+
 
             val handler = Handler(Looper.getMainLooper())
 
@@ -113,7 +123,7 @@ class SettingSecond : SignUp() {
             val uriHeaderAttachment: MutableLiveData<Int> = MutableLiveData(null)
 
             uriHeaderAttachment.observe(requireActivity(), Observer {
-                if(uriAvatarAttachment.value != null && it != null) {
+                if((uriAvatar == null || uriAvatarAttachment.value != null) && (it != null || uriHeader == null)) {
                     userSignUpData.avatar = uriAvatarAttachment.value
                     userSignUpData.header = it
                     updateUser(serviceApi, userSignUpData, handler, button)
@@ -121,15 +131,15 @@ class SettingSecond : SignUp() {
             })
 
             uriAvatarAttachment.observe(requireActivity(), Observer {
-                if(uriHeaderAttachment.value != null && it != null) {
+                if((uriHeader == null || uriHeaderAttachment.value != null) && (it != null || uriAvatar == null)) {
                     userSignUpData.header = uriHeaderAttachment.value
                     userSignUpData.avatar = it
                     updateUser(serviceApi, userSignUpData, handler, button)
                 }
             })
 
-//            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, serviceApi, uriAvatarAttachment, compositeDisposable)
-//            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, serviceApi, uriHeaderAttachment, compositeDisposable)
+            UploadFileService.uploadFile(uriAvatar, requireContext().contentResolver, sharedPreferences, uriAvatarAttachment, compositeDisposable)
+            UploadFileService.uploadFile(uriHeader, requireContext().contentResolver, sharedPreferences, uriHeaderAttachment, compositeDisposable)
 
         }
         return view
@@ -150,6 +160,7 @@ class SettingSecond : SignUp() {
             Log.v("MYTAG", "failed ${it.message!!}")
         }))
     }
+
 
     private fun showDate() {
         val calendar = Calendar.getInstance()
