@@ -1,4 +1,4 @@
-package com.mhssonic.flutter.ui.menu
+package com.mhssonic.flutter.ui.comments
 
 import android.content.Intent
 import android.net.Uri
@@ -6,66 +6,49 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
-import com.mhssonic.flutter.model.Message.MessageData
 import com.mhssonic.flutter.model.Message.Tweet.RetweetData
 import com.mhssonic.flutter.model.Message.Tweet.TweetData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.MessageIdData
-import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
 import com.mhssonic.flutter.service.http.DownloadFileService
-import com.mhssonic.flutter.ui.comments.ShowCommentActivity
+import com.mhssonic.flutter.ui.menu.SearchFragment
 import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.time.Duration
 import java.time.LocalDateTime
 
-
-//class ViewModelUserProfile : ViewModel(){
-//    var userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
-//}
-
-class RecycleViewTimeLineAdaptor(
-    private val timeLineData: ArrayList<MessageData>,
+class RecycleViewComments(
+    private val comments: ArrayList<TweetData>,
     private val serviceApi: ApiService,
-    private val ownerFragment: TimeLineFragment,
+    private val ownerActivity: ShowCommentActivity,
     private val compositeDisposable: CompositeDisposable,
     private var longPressDetected: Boolean = false
-): RecyclerView.Adapter<MyViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+) :  RecyclerView.Adapter<MyViewCommentsHolder>(){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewCommentsHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.tweet, parent, false)
-        return MyViewHolder(listItem)
+        return MyViewCommentsHolder(listItem)
     }
 
     override fun getItemCount(): Int {
-        return timeLineData.size
+        return comments.size;
     }
 
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val message = timeLineData[timeLineData.size - position - 1]
+    override fun onBindViewHolder(holder: MyViewCommentsHolder, position: Int) {
+        val message = comments[comments.size - position - 1]
         val tweetData = message as TweetData
         var user = UserProfileData()
 
@@ -109,41 +92,36 @@ class RecycleViewTimeLineAdaptor(
         val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
         val uriProfile : MutableLiveData<Uri> = MutableLiveData()
 
-        userProfileLiveData.observe(ownerFragment, Observer {it ->
+        userProfileLiveData.observe(ownerActivity, Observer {it ->
             user = it
             holder.name.text = "${it.firstName}  ${it.lastName}"
             holder.username.text = it.username
             holder.imageProfile.isEnabled = true
 
-            DownloadFileService.getFile(serviceApi, user.avatar , compositeDisposable, uriProfile, ownerFragment.requireContext())
+            DownloadFileService.getFile(serviceApi, user.avatar , compositeDisposable, uriProfile, ownerActivity)
         })
 
-        uriProfile.observe(ownerFragment, Observer {
+        uriProfile.observe(ownerActivity, Observer {
             holder.imageProfile.setImageURI(uriProfile.value)
         })
 
-        compositeDisposable.add(serviceApi.getProfileUser(getUserDataByUserId(tweetData.author)).subscribeOn(Schedulers.io()).subscribe({
+        compositeDisposable.add(serviceApi.getProfileUser(getUserDataByUserId(tweetData.author)).subscribeOn(
+            Schedulers.io()).subscribe({
             userProfileLiveData.postValue(it)
         }, {
             Log.v("MYTAG", "failed ${it.message!!}")
         }))
 
         holder.imageProfile.setOnClickListener{
-            val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
+            val intent = Intent(ownerActivity, ProfileActivity::class.java)
             intent.putExtra("userProfile", user)
-            ownerFragment.requireActivity().startActivity(intent)
-        }
-
-        holder.imageComment.setOnClickListener{
-            val intent = Intent(ownerFragment.requireActivity(), ShowCommentActivity::class.java)
-            intent.putExtra("tweetId", id)
-            ownerFragment.requireActivity().startActivity(intent)
+            ownerActivity.startActivity(intent)
         }
 
         val handler = Handler(Looper.getMainLooper())
 
         val alreadyLikedBeforeMutableLiveData: MutableLiveData<Boolean> = MutableLiveData(holder.alreadyLikedBefore)
-        alreadyLikedBeforeMutableLiveData.observe(ownerFragment, Observer {
+        alreadyLikedBeforeMutableLiveData.observe(ownerActivity, Observer {
             if(it)
                 holder.imageLike.setColorFilter(ContextCompat.getColor(holder.itemView.context, R.color.purple))
             else
@@ -154,7 +132,7 @@ class RecycleViewTimeLineAdaptor(
             it.isEnabled = false
             if(holder.alreadyLikedBefore){
                 compositeDisposable.add(serviceApi.unlike(MessageIdData(id)).subscribeOn(
-                    Schedulers.io()).subscribe({response ->
+                    Schedulers.io()).subscribe({ response ->
                     handler.post {
                         it.isEnabled = true
                     }
@@ -167,7 +145,7 @@ class RecycleViewTimeLineAdaptor(
                         }
                     }else {
                         handler.post {
-                            Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ownerActivity,responseBody, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }, {t ->
@@ -178,7 +156,7 @@ class RecycleViewTimeLineAdaptor(
                 }))
             } else{
                 compositeDisposable.add(serviceApi.like(MessageIdData(id)).subscribeOn(
-                    Schedulers.io()).subscribe({response ->
+                    Schedulers.io()).subscribe({ response ->
                     handler.post {
                         it.isEnabled = true
                     }
@@ -191,7 +169,7 @@ class RecycleViewTimeLineAdaptor(
                         }
                     }else {
                         handler.post {
-                            Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ownerActivity,responseBody, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }, {t ->
@@ -207,7 +185,7 @@ class RecycleViewTimeLineAdaptor(
             Log.v("MYTAG", "im short")
             button.isEnabled = false
             compositeDisposable.add(serviceApi.retweet(MessageIdData(id)).subscribeOn(
-                Schedulers.io()).subscribe({response ->
+                Schedulers.io()).subscribe({ response ->
                 handler.post {
                     button.isEnabled = true
                 }
@@ -218,7 +196,7 @@ class RecycleViewTimeLineAdaptor(
                     }
                 }else {
                     handler.post {
-                        Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(ownerActivity,responseBody, Toast.LENGTH_SHORT).show()
                     }
                 }
             }, {t ->
@@ -257,7 +235,7 @@ class RecycleViewTimeLineAdaptor(
     }
 }
 
-class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
+class MyViewCommentsHolder(val view: View) : RecyclerView.ViewHolder(view){
     val text : TextView = itemView.findViewById(R.id.tvTweetText)
     val username : TextView = itemView.findViewById(R.id.tvUsername)
     val name : TextView = itemView.findViewById(R.id.tvName)
@@ -270,7 +248,5 @@ class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
     val imageLike : ImageButton = itemView.findViewById(R.id.imageLike)
     val imageProfile: ImageButton = itemView.findViewById(R.id.ivTweetProfile)
     val imageRetweet : ImageButton = itemView.findViewById(R.id.imageRetweet)
-    val imageComment : ImageButton = itemView.findViewById(R.id.imageComment)
     var alreadyLikedBefore = false
-
 }
