@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -48,7 +49,8 @@ class RecycleViewTimeLineAdaptor(
     private val timeLineData: ArrayList<MessageData>,
     private val serviceApi: ApiService,
     private val ownerFragment: TimeLineFragment,
-    private val compositeDisposable: CompositeDisposable
+    private val compositeDisposable: CompositeDisposable,
+    private var longPressDetected: Boolean = false
 ): RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -195,6 +197,7 @@ class RecycleViewTimeLineAdaptor(
         }
 
         holder.imageRetweet.setOnClickListener{button ->
+            Log.v("MYTAG", "im short")
             button.isEnabled = false
             compositeDisposable.add(serviceApi.retweet(MessageIdData(id)).subscribeOn(
                 Schedulers.io()).subscribe({response ->
@@ -219,6 +222,12 @@ class RecycleViewTimeLineAdaptor(
             }))
         }
 
+        holder.imageRetweet.setOnLongClickListener {
+            Log.v("MYTAG", "im long")
+            true
+        }
+
+
         compositeDisposable.add(serviceApi.alreadyLiked(MessageIdData(id)).subscribeOn(
             Schedulers.io()).subscribe({
             val responseBody = it.string()
@@ -235,7 +244,10 @@ class RecycleViewTimeLineAdaptor(
             }
         }))
     }
-
+    private val longPressRunnable = Runnable {
+        longPressDetected = true
+        // Do something for long press
+    }
 }
 
 class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){

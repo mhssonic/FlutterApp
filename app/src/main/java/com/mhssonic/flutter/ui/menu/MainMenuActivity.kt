@@ -65,8 +65,6 @@ class MainMenuActivity : AppCompatActivity() {
             val intent = Intent(this@MainMenuActivity, SettingActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 
     private fun replaceFragment(fragment: Fragment){
