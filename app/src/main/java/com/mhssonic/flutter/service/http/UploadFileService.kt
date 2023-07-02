@@ -7,8 +7,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okio.buffer
+import okio.source
 import java.io.InputStream
 
 
@@ -25,8 +28,8 @@ class UploadFileService {
             val contentType = "file/${format!!.split('/')[1]}".toMediaTypeOrNull()
 
             if (inputStream != null && contentType != null) {
-//                val requestBody: RequestBody = create(parse.parse("multipart/form-data"), file)
-                val requestBody = InputStreamRequestBody(inputStream, contentType)
+                val requestBody: RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), inputStream.source().buffer().readByteArray())
+//                val requestBody = InputStreamRequestBody(inputStream, contentType)
                 compositeDisposable.add(serviceApi.uploadFile(requestBody)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())

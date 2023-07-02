@@ -9,6 +9,7 @@ import com.mhssonic.flutter.model.MessageIdData
 import com.mhssonic.flutter.model.TimeLineData
 import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.model.UserProfileData
+import com.mhssonic.flutter.model.UserProfileUpdateData
 import com.mhssonic.flutter.model.UserSignUpData
 import io.reactivex.Observable
 import okhttp3.RequestBody
@@ -70,7 +71,7 @@ interface ApiService {
     fun uploadFile(@Body requestBody: RequestBody): Observable<ResponseBody>
 
     @POST("/update-profile")
-    fun updateProfile(@Body data: UserSignUpData): Observable<ResponseBody>
+    fun updateProfile(@Body data: UserProfileUpdateData): Observable<ResponseBody>
 
     @POST("/tweet")
     fun tweet(@Body data: TweetCreateData): Observable<ResponseBody>

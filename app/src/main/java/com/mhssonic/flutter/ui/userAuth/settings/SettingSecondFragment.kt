@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.model.UserProfileUpdateData
 import com.mhssonic.flutter.model.UserSignUpData
 import com.mhssonic.flutter.model.UserUri
 import com.mhssonic.flutter.service.http.ApiService
@@ -111,24 +112,26 @@ class SettingSecondFragment : SignUpFragment() {
             val uriAvatarAttachment : MutableLiveData<Int> = MutableLiveData(null)
             val uriHeaderAttachment: MutableLiveData<Int> = MutableLiveData(null)
 
+            val userProfileUpdateData = UserProfileUpdateData(userSignUpData.firstName, userSignUpData.lastName, userSignUpData.phoneNumber, userSignUpData.email, userSignUpData.country, userSignUpData.birthdate, userSignUpData.biography, "", "", userSignUpData.username,  userSignUpData.password, userSignUpData.confirmPassword)
+
             if(uriAvatar == null && uriHeader == null){
-                userSignUpData.avatar = null
-                userSignUpData.header = null
-                updateUser(serviceApi, userSignUpData, handler, button)
+                userProfileUpdateData.avatar = ""
+                userProfileUpdateData.header = ""
+                updateUser(serviceApi, userProfileUpdateData, handler, button)
             }else{
                 uriHeaderAttachment.observe(requireActivity(), Observer {
                     if((uriAvatar == null || uriAvatarAttachment.value != null) && (it != null || uriHeader == null)) {
-                        userSignUpData.avatar = uriAvatarAttachment.value
-                        userSignUpData.header = it
-                        updateUser(serviceApi, userSignUpData, handler, button)
+                        userProfileUpdateData.avatar = uriAvatarAttachment.value.toString()
+                        userProfileUpdateData.header = it.toString()
+                        updateUser(serviceApi, userProfileUpdateData, handler, button)
                     }
                 })
 
                 uriAvatarAttachment.observe(requireActivity(), Observer {
                     if((uriHeader == null || uriHeaderAttachment.value != null) && (it != null || uriAvatar == null)) {
-                        userSignUpData.header = uriHeaderAttachment.value
-                        userSignUpData.avatar = it
-                        updateUser(serviceApi, userSignUpData, handler, button)
+                        userProfileUpdateData.header = uriHeaderAttachment.value.toString()
+                        userProfileUpdateData.avatar = it.toString()
+                        updateUser(serviceApi, userProfileUpdateData, handler, button)
                     }
                 })
 
@@ -141,7 +144,11 @@ class SettingSecondFragment : SignUpFragment() {
         return view
     }
 
-    private fun updateUser(serviceApi: ApiService, userSignUpData : UserSignUpData, handler: Handler, view: View){
+    private fun updateUser(serviceApi: ApiService, userSignUpData : UserProfileUpdateData, handler: Handler, view: View){
+        if(userSignUpData.avatar == "")
+            userSignUpData.avatar = "0"
+        if(userSignUpData.header == "")
+            userSignUpData.header = "0"
         compositeDisposable.add(serviceApi.updateProfile(userSignUpData).subscribeOn(Schedulers.io()).subscribe({
             handler.post {
                 val responseBody = it.string()
