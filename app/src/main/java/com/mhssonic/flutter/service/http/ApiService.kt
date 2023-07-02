@@ -34,6 +34,10 @@ interface ApiService {
     @POST("/search-users")
     fun searchUsersProfile(@Body data: getUserDataByUsername): Observable<UsersProfileData>
 
+    @POST("/get-friends")
+    @Headers("Content-Type: application/json")
+    fun getFriends(): Observable<UsersProfileData>
+
     @POST("/show-timeline")
     @Headers("Content-Type: application/json")
     fun getTimeLine(): Observable<TimeLineData>

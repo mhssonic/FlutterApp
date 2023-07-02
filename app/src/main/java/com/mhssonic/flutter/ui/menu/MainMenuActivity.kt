@@ -34,7 +34,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         timeLineFragment = TimeLineFragment(sharedPreferences)
         searchFragment = SearchFragment(sharedPreferences)
-        directMessagesFragment = DirectMessagesFragment()
+        directMessagesFragment = DirectMessagesFragment(sharedPreferences)
 
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)

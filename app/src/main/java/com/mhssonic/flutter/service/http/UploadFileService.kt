@@ -32,7 +32,6 @@ class UploadFileService {
                     }, { t ->
                         Log.v("FILETAG", "Request failed: ${t.message}")
                     }))
-
             }
         }
     }
