@@ -10,6 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="20dp"
         android:background="#25838BC2"
         tools:context=".ui.userAuth.settings.SettingActivity">
 
@@ -24,7 +26,7 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" >
+            app:layout_constraintVertical_bias="0">
 
             <ImageView
                 android:id="@+id/header"
@@ -196,13 +198,21 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btnBlock"
+                android:layout_width="120dp"
+                android:layout_height="52dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#766E81"
+                android:text="مسدود کردن" />
+
+            <Button
                 android:id="@+id/btnPrev"
                 android:layout_width="120dp"
                 android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="#766E81"
+                android:backgroundTint="#554F5E"
                 android:text="@string/previous"
                 app:rippleColor="@color/Periwinkle" />
 

@@ -98,11 +98,6 @@ class CreateTweetActivity : AppCompatActivity() {
             }
 
             val imageSizeBytes = totalBytes
-
-
-
-
-
             imageFragment.arguments = bundle
 
             supportFragmentManager.beginTransaction()
