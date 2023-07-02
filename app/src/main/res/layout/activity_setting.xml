@@ -75,15 +75,17 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
-        android:name="com.mhssonic.flutter.ui.userAuth.settings.SettingFirst"
+        android:name="com.mhssonic.flutter.ui.userAuth.settings.SettingFirstFragment"
 
         android:layout_width="0dp"
         android:layout_height="0dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0" />
 
     <!-- to bala ee bod          android:layout_width="wrap_content"
         android:layout_height="wrap_content"

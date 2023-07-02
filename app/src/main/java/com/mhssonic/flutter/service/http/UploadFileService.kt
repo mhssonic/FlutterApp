@@ -7,13 +7,16 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
 import java.io.InputStream
+
 
 class UploadFileService {
     companion object{
-        fun uploadFile(fileUri: Uri?, contentResolver: ContentResolver, sharedPreferences: SharedPreferences, attachmentMutable: MutableLiveData<Int>, compositeDisposable: CompositeDisposable){
+        fun uploadFile(fileUri: Uri?, contentResolver: ContentResolver,
+                       sharedPreferences: SharedPreferences, attachmentMutable: MutableLiveData<Int>,
+                       compositeDisposable: CompositeDisposable){
             if(fileUri == null)
                 return
             val serviceApi = RetrofitInstance.getApiService(sharedPreferences)
@@ -22,6 +25,7 @@ class UploadFileService {
             val contentType = "file/${format!!.split('/')[1]}".toMediaTypeOrNull()
 
             if (inputStream != null && contentType != null) {
+//                val requestBody: RequestBody = create(parse.parse("multipart/form-data"), file)
                 val requestBody = InputStreamRequestBody(inputStream, contentType)
                 compositeDisposable.add(serviceApi.uploadFile(requestBody)
                     .subscribeOn(Schedulers.io())

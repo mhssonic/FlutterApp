@@ -16,7 +16,6 @@ import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.FragmentSignUpFourthBinding
 import com.mhssonic.flutter.model.UserSignUpData
 import com.mhssonic.flutter.service.http.RetrofitInstance
-import com.mhssonic.flutter.ui.menu.MainMenuActivity
 import com.mhssonic.flutter.ui.userAuth.login.LoginActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -26,7 +25,7 @@ import java.util.Calendar
 import java.util.Locale
 
 
-class SignUpFourth() : SignUp() {
+class SignUpFourth() : SignUpFragment() {
     private lateinit var btnRegisterFragment: Button
     private lateinit var btnPreFragment: Button
 

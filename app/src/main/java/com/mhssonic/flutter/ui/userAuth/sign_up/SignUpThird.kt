@@ -10,7 +10,7 @@ import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserSignUpData
 
 
-class SignUpThird : SignUp() {
+class SignUpThird : SignUpFragment() {
     private lateinit var btnNextFragment: Button
     private lateinit var btnPreFragment: Button
     private lateinit var edEmail: EditText

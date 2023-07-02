@@ -1,10 +1,7 @@
 package com.mhssonic.flutter.ui.userAuth.settings
 
 import android.app.DatePickerDialog
-import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,27 +15,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserSignUpData
 import com.mhssonic.flutter.model.UserUri
 import com.mhssonic.flutter.service.http.ApiService
-import com.mhssonic.flutter.service.http.InputStreamRequestBody
 import com.mhssonic.flutter.service.http.RetrofitInstance
 import com.mhssonic.flutter.service.http.UploadFileService
-import com.mhssonic.flutter.ui.userAuth.sign_up.SignUp
-import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFourth
+import com.mhssonic.flutter.ui.userAuth.sign_up.SignUpFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import java.io.InputStream
 import java.util.Calendar
 import java.util.Locale
 
 
-class SettingSecond : SignUp() {
+class SettingSecondFragment : SignUpFragment() {
     private lateinit var btnRegisterFragment: Button
     private lateinit var spinnerCountry: Spinner
     private lateinit var edBirthDate: EditText
@@ -107,11 +99,8 @@ class SettingSecond : SignUp() {
 //                .addToBackStack(null)
 //                .commit()
 
-
-
-
             val userSignUpData = UserSignUpData()
-            val userUri = arguments?.getSerializable("userUri") as? UserUri
+            val userUri = (activity as SettingActivity).userUri
 
             val uriHeader = userUri?.headerUri
             val uriAvatar = userUri?.avatarUri

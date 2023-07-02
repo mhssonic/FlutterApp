@@ -16,7 +16,7 @@ class SettingActivity : AppCompatActivity() {
     private val PICK_IMAGE_REQUEST = 1
     private var flag = 1
     val bundle = Bundle()
-    private val userUri = UserUri()
+    val userUri = UserUri()
 
 
 
@@ -37,8 +37,7 @@ class SettingActivity : AppCompatActivity() {
         }
 
 
-        val secondFragment = SettingFirst()
-        bundle.putSerializable("userUri", userUri)
+        val secondFragment = SettingFirstFragment()
         secondFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView2, secondFragment)

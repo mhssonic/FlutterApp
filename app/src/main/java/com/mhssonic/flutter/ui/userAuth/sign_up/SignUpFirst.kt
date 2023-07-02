@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.mhssonic.flutter.R
-import com.mhssonic.flutter.model.UserSignUpData
 
-class SignUpFirst : SignUp() {
+class SignUpFirst : SignUpFragment() {
     private lateinit var btnChangeFragment: Button
     private lateinit var edFirstName: EditText
     private lateinit var edLastName: EditText

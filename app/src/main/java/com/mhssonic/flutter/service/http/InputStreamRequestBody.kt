@@ -6,6 +6,8 @@ import okio.BufferedSink
 import okio.buffer
 import okio.source
 import java.io.InputStream
+import java.lang.Integer.max
+import java.lang.Integer.min
 
 
 class InputStreamRequestBody(
@@ -18,18 +20,16 @@ class InputStreamRequestBody(
     }
 
     override fun contentLength(): Long {
-        return -1 // or provide the actual content length if known
+        val source = inputStream.source().buffer()
+        val readByteArray = source.readByteArray()
+        return readByteArray.size.toLong()
     }
 
     override fun writeTo(sink: BufferedSink) {
-        val buffer = ByteArray(DEFAULT_BUFFER_SIZE.toInt())
-        var bytesRead: Int
         val source = inputStream.source().buffer()
-
-        while (source.read(buffer).also { bytesRead = it } != -1) {
-            sink.write(buffer, 0, bytesRead)
-        }
-        source.close()
+        val readByteArray = source.readByteArray()
+        sink.write(readByteArray)
+        sink.flush()
     }
 
     companion object {

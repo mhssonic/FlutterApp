@@ -14,7 +14,7 @@ import android.widget.Toast
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserSignUpData
 
-class SignUpSecond : SignUp() {
+class SignUpSecond : SignUpFragment() {
     private lateinit var btnNextFragment: Button
     private lateinit var btnPreFragment: Button
 

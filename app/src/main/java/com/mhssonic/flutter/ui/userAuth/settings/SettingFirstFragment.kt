@@ -7,14 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.mhssonic.flutter.R
-import com.mhssonic.flutter.databinding.ActivitySettingBinding
 import com.mhssonic.flutter.databinding.FragmentSettingFirstBinding
-import com.mhssonic.flutter.ui.menu.MainMenuActivity
 import com.mhssonic.flutter.ui.userAuth.login.LoginActivity
 
-class SettingFirst : Fragment() {
+class SettingFirstFragment : Fragment() {
     private lateinit var binding: FragmentSettingFirstBinding
 
     override fun onCreateView(
@@ -24,7 +21,7 @@ class SettingFirst : Fragment() {
     ): View? {
         binding = FragmentSettingFirstBinding.inflate(layoutInflater)
         binding.btnSetting.setOnClickListener {
-            val secondFragment = SettingSecond()
+            val secondFragment = SettingSecondFragment()
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainerView2, secondFragment)
                 .addToBackStack(null)
