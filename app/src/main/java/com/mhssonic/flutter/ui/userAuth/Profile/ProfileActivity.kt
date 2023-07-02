@@ -37,7 +37,7 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.tvName.text = "${user.firstName}  ${user.lastName}"
         binding.tvBio.text = user.biography
-        binding.tvJoin.text = "he/she been in this world since ${user.birthdate}"
+        binding.tvJoin.text = "born in ${user.birthdate}"
         binding.tvUsername.text = user.username
 
         binding.tvFollowerCount.text = user.followerCount.toString()
