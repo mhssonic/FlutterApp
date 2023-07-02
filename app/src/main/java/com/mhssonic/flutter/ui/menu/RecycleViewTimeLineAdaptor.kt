@@ -194,6 +194,31 @@ class RecycleViewTimeLineAdaptor(
             }
         }
 
+        holder.imageRetweet.setOnClickListener{button ->
+            button.isEnabled = false
+            compositeDisposable.add(serviceApi.retweet(MessageIdData(id)).subscribeOn(
+                Schedulers.io()).subscribe({response ->
+                handler.post {
+                    button.isEnabled = true
+                }
+                val responseBody = response.string()
+                if(responseBody == "SUCCESS"){
+                    handler.post {
+                        holder.retweet.text = holder.retweet.text.toString().toInt().plus(1).toString()
+                    }
+                }else {
+                    handler.post {
+                        Toast.makeText(ownerFragment.requireContext(),responseBody, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }, {t ->
+                handler.post {
+                    button.isEnabled = true
+                    Log.v("MYTAG", "failed ${t.message!!}")
+                }
+            }))
+        }
+
         compositeDisposable.add(serviceApi.alreadyLiked(MessageIdData(id)).subscribeOn(
             Schedulers.io()).subscribe({
             val responseBody = it.string()
@@ -225,6 +250,7 @@ class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
 
     val imageLike : ImageButton = itemView.findViewById(R.id.imageLike)
     val imageProfile: ImageButton = itemView.findViewById(R.id.ivTweetProfile)
+    val imageRetweet : ImageButton = itemView.findViewById(R.id.imageRetweet)
     var alreadyLikedBefore = false
 
 }

@@ -70,4 +70,7 @@ interface ApiService {
 
     @POST("/tweet")
     fun tweet(@Body data: TweetCreateData): Observable<ResponseBody>
+
+    @POST("/retweet")
+    fun retweet(@Body data: MessageIdData): Observable<ResponseBody>
 }
