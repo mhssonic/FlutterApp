@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mhssonic.flutter.databinding.FragmentTimeLineBinding
 import com.mhssonic.flutter.model.TimeLineData
 import com.mhssonic.flutter.service.http.RetrofitInstance
+import com.mhssonic.flutter.ui.comments.RecycleViewComments
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
@@ -35,7 +36,7 @@ class TimeLineFragment(private val sharedPreferencesCookie: SharedPreferences) :
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(false)
         val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
-        val adaptor = RecycleViewTimeLineAdaptor(timeLineData, serviceApi, this, compositeDisposable)
+        val adaptor = RecycleViewComments(timeLineData, serviceApi, requireActivity(), compositeDisposable)
         binding.recyclerView.adapter = adaptor
 
 

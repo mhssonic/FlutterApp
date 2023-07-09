@@ -6,19 +6,14 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.Message.MessageData
@@ -26,15 +21,14 @@ import com.mhssonic.flutter.model.Message.Tweet.RetweetData
 import com.mhssonic.flutter.model.Message.Tweet.TweetData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.model.MessageIdData
-import com.mhssonic.flutter.model.UserLoginData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
 import com.mhssonic.flutter.service.http.DownloadFileService
+import com.mhssonic.flutter.ui.comments.MyTweetHolder
 import com.mhssonic.flutter.ui.comments.ShowCommentActivity
 import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,11 +46,11 @@ class RecycleViewTimeLineAdaptor(
     private val ownerFragment: TimeLineFragment,
     private val compositeDisposable: CompositeDisposable,
     private var longPressDetected: Boolean = false
-): RecyclerView.Adapter<MyViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+): RecyclerView.Adapter<MyTweetHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyTweetHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.tweet, parent, false)
-        return MyViewHolder(listItem)
+        return MyTweetHolder(listItem)
     }
 
     override fun getItemCount(): Int {
@@ -64,7 +58,7 @@ class RecycleViewTimeLineAdaptor(
     }
 
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyTweetHolder, position: Int) {
         val message = timeLineData[timeLineData.size - position - 1]
         val tweetData = message as TweetData
         var user = UserProfileData()
@@ -257,20 +251,3 @@ class RecycleViewTimeLineAdaptor(
     }
 }
 
-class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view){
-    val text : TextView = itemView.findViewById(R.id.tvTweetText)
-    val username : TextView = itemView.findViewById(R.id.tvUsername)
-    val name : TextView = itemView.findViewById(R.id.tvName)
-    val like : TextView = itemView.findViewById(R.id.tvLike)
-    val retweet : TextView = itemView.findViewById(R.id.tvRetweet)
-    val comment : TextView = itemView.findViewById(R.id.tvComment)
-    val hashtag: TextView = itemView.findViewById(R.id.tvHashtags)
-    val time: TextView = itemView.findViewById((R.id.tvTIME))
-
-    val imageLike : ImageButton = itemView.findViewById(R.id.imageLike)
-    val imageProfile: ImageButton = itemView.findViewById(R.id.ivTweetProfile)
-    val imageRetweet : ImageButton = itemView.findViewById(R.id.imageRetweet)
-    val imageComment : ImageButton = itemView.findViewById(R.id.imageComment)
-    var alreadyLikedBefore = false
-
-}

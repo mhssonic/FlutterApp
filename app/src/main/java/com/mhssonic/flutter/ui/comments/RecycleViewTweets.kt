@@ -9,13 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
+import com.mhssonic.flutter.model.Message.MessageData
 import com.mhssonic.flutter.model.Message.Tweet.RetweetData
 import com.mhssonic.flutter.model.Message.Tweet.TweetData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
@@ -23,7 +26,6 @@ import com.mhssonic.flutter.model.MessageIdData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
 import com.mhssonic.flutter.service.http.DownloadFileService
-import com.mhssonic.flutter.ui.menu.SearchFragment
 import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -31,23 +33,23 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 class RecycleViewComments(
-    private val comments: ArrayList<TweetData>,
+    private val comments: ArrayList<MessageData>,
     private val serviceApi: ApiService,
-    private val ownerActivity: ShowCommentActivity,
+    private val ownerActivity: FragmentActivity,
     private val compositeDisposable: CompositeDisposable,
     private var longPressDetected: Boolean = false
-) :  RecyclerView.Adapter<MyViewCommentsHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewCommentsHolder {
+) :  RecyclerView.Adapter<MyTweetHolder>(){
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyTweetHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem = layoutInflater.inflate(R.layout.tweet, parent, false)
-        return MyViewCommentsHolder(listItem)
+        return MyTweetHolder(listItem)
     }
 
     override fun getItemCount(): Int {
         return comments.size;
     }
 
-    override fun onBindViewHolder(holder: MyViewCommentsHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyTweetHolder, position: Int) {
         val message = comments[comments.size - position - 1]
         val tweetData = message as TweetData
         var user = UserProfileData()
@@ -83,10 +85,21 @@ class RecycleViewComments(
 
         holder.time.text = textTime
 
-        val id = if(tweetData is RetweetData)
-            tweetData.retweetedMessageId
-        else
-            tweetData.id
+        var id : Int? = null
+        if(tweetData is RetweetData){
+            id = tweetData.retweetedMessageId
+            holder.imageForRetweet.visibility = View.VISIBLE
+            holder.textForRetweets.visibility = View.VISIBLE
+
+        }
+        else {
+            id = tweetData.id
+        }
+
+//        val id = if(tweetData is RetweetData)
+//            tweetData.retweetedMessageId
+//        else
+//            tweetData.id
 
 //        val viewModel : ViewModelUserProfile = ViewModelProvider(ownerFragment)[ViewModelUserProfile::class.java]
         val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
@@ -235,7 +248,7 @@ class RecycleViewComments(
     }
 }
 
-class MyViewCommentsHolder(val view: View) : RecyclerView.ViewHolder(view){
+class MyTweetHolder(val view: View) : RecyclerView.ViewHolder(view){
     val text : TextView = itemView.findViewById(R.id.tvTweetText)
     val username : TextView = itemView.findViewById(R.id.tvUsername)
     val name : TextView = itemView.findViewById(R.id.tvName)
@@ -248,5 +261,10 @@ class MyViewCommentsHolder(val view: View) : RecyclerView.ViewHolder(view){
     val imageLike : ImageButton = itemView.findViewById(R.id.imageLike)
     val imageProfile: ImageButton = itemView.findViewById(R.id.ivTweetProfile)
     val imageRetweet : ImageButton = itemView.findViewById(R.id.imageRetweet)
+    val imageComment : ImageButton = itemView.findViewById(R.id.imageComment)
+    val imageForRetweet : ImageView = itemView.findViewById(R.id.imageRetweetForRetweets)
+    val textForRetweets : TextView = itemView.findViewById(R.id.tvRetweetForRetweets)
+
     var alreadyLikedBefore = false
+
 }
