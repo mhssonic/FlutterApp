@@ -5,17 +5,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityShowCommentBinding
 import com.mhssonic.flutter.model.CommentsData
 import com.mhssonic.flutter.model.MessageIdData
-import com.mhssonic.flutter.model.TimeLineData
-import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.RetrofitInstance
-import com.mhssonic.flutter.ui.menu.RecycleViewTimeLineAdaptor
-import com.mhssonic.flutter.ui.menu.ViewModelTimeLine
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 

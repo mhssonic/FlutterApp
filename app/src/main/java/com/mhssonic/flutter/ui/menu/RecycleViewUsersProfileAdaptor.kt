@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -15,13 +16,14 @@ import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
 import com.mhssonic.flutter.service.http.DownloadFileService
+import com.mhssonic.flutter.ui.menu.directMessage.DirectMessageActivity
 import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
 
 class RecycleViewUsersProfileAdaptor(
     private val usersProfileData: ArrayList<UserProfileData>,
     private val serviceApi: ApiService,
-    private val ownerFragment: SearchFragment,
+    private val ownerFragment: Fragment,
     private val compositeDisposable: CompositeDisposable
 ):  RecyclerView.Adapter<MyViewUserProfileHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewUserProfileHolder {
@@ -48,7 +50,7 @@ class RecycleViewUsersProfileAdaptor(
 
 
         holder.view.setOnClickListener{
-            moveToProfile(user)
+            moveToDirect(user)
         }
 
         holder.imageProfile.setOnClickListener{
@@ -59,6 +61,12 @@ class RecycleViewUsersProfileAdaptor(
     private fun moveToProfile(user : UserProfileData){
         val intent = Intent(ownerFragment.requireActivity(), ProfileActivity::class.java)
         intent.putExtra("userProfile", user)
+        ownerFragment.requireActivity().startActivity(intent)
+    }
+
+    private fun moveToDirect(friend : UserProfileData){
+        val intent = Intent(ownerFragment.requireActivity(), DirectMessageActivity::class.java)
+        intent.putExtra("friend_id", friend.id)
         ownerFragment.requireActivity().startActivity(intent)
     }
 }

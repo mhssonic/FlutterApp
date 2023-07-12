@@ -9,6 +9,8 @@
     <color name="Periwinkle">#838BC2</color>
     <color name="blue">#2944FF</color>
     <color name="light_blue">#00AEFF</color>
+    <color name="my_chat_background">#3B91E6</color>
+    <color name="your_chat_background">#455F84</color>
   
 <!--     <color name="bottom_navigation_item_color">#RRGGBB</color> -->
     <color name="bottom_navigation_item_color">#875CD3</color>

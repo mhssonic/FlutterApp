@@ -21,6 +21,9 @@
         android:theme="@style/Theme.Flutter"
         tools:targetApi="31">
         <activity
+            android:name=".ui.menu.directMessage.DirectMessageActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.comments.ShowCommentActivity"
             android:exported="false" />
         <activity

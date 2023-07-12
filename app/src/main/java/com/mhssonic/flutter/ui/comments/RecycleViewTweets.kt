@@ -37,7 +37,6 @@ class RecycleViewComments(
     private val serviceApi: ApiService,
     private val ownerActivity: FragmentActivity,
     private val compositeDisposable: CompositeDisposable,
-    private var longPressDetected: Boolean = false
 ) :  RecyclerView.Adapter<MyTweetHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyTweetHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -96,11 +95,6 @@ class RecycleViewComments(
             id = tweetData.id
         }
 
-//        val id = if(tweetData is RetweetData)
-//            tweetData.retweetedMessageId
-//        else
-//            tweetData.id
-
 //        val viewModel : ViewModelUserProfile = ViewModelProvider(ownerFragment)[ViewModelUserProfile::class.java]
         val userProfileLiveData : MutableLiveData<UserProfileData> = MutableLiveData()
         val uriProfile : MutableLiveData<Uri> = MutableLiveData()
@@ -128,6 +122,12 @@ class RecycleViewComments(
         holder.imageProfile.setOnClickListener{
             val intent = Intent(ownerActivity, ProfileActivity::class.java)
             intent.putExtra("userProfile", user)
+            ownerActivity.startActivity(intent)
+        }
+
+        holder.imageComment.setOnClickListener{
+            val intent = Intent(ownerActivity, ShowCommentActivity::class.java)
+            intent.putExtra("tweetId", id)
             ownerActivity.startActivity(intent)
         }
 
@@ -241,10 +241,6 @@ class RecycleViewComments(
                 Log.v("MYTAG", "failed ${it.message!!}")
             }
         }))
-    }
-    private val longPressRunnable = Runnable {
-        longPressDetected = true
-        // Do something for long press
     }
 }
 

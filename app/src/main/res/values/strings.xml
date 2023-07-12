@@ -82,4 +82,6 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="title_activity_retweet">RetweetActivity</string>
+    <string name="retweeted">retweeted</string>
+    <string name="example_text">a lot of content for testing how this message will look like</string>
 </resources>

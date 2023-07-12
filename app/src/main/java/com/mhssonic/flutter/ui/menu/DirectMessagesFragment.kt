@@ -32,7 +32,7 @@ class DirectMessagesFragment(private val sharedPreferencesCookie: SharedPreferen
         binding.recyclerView.setHasFixedSize(false)
         val serviceApi = RetrofitInstance.getApiService(sharedPreferencesCookie)
 
-        val adaptor = RecycleViewUserDirectMessageAdaptor(usersProfileData, serviceApi, this, compositeDisposable)
+        val adaptor = RecycleViewUsersProfileAdaptor(usersProfileData, serviceApi, this, compositeDisposable)
         binding.recyclerView.adapter = adaptor
 
         val handler = Handler(Looper.getMainLooper())

@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="you retweeted"
+                    android:text="@string/retweeted"
                     android:textColor="@color/Periwinkle"
                     android:visibility="gone" />
             </LinearLayout>

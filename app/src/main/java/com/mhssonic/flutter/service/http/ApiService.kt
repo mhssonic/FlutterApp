@@ -2,6 +2,7 @@ package com.mhssonic.flutter.service.http
 
 import com.mhssonic.flutter.model.AttachmentIdData
 import com.mhssonic.flutter.model.CommentsData
+import com.mhssonic.flutter.model.FriendDirectMessages
 import com.mhssonic.flutter.model.Message.UsersProfileData
 import com.mhssonic.flutter.model.Message.create_message.TweetCreateData
 import com.mhssonic.flutter.model.Message.getUserDataByUserId
@@ -43,6 +44,9 @@ interface ApiService {
     @POST("/show-timeline")
     @Headers("Content-Type: application/json")
     fun getTimeLine(): Observable<TimeLineData>
+
+    @POST("/show-direct")
+    fun getDirectMessageHttp(@Body data: getUserDataByUserId): Observable<FriendDirectMessages>
 
     @POST("/show-tweet")
     fun getComments(@Body data: MessageIdData): Observable<CommentsData>
