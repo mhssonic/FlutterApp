@@ -5,7 +5,7 @@ import com.mhssonic.flutter.model.CommentsData
 import com.mhssonic.flutter.model.FriendDirectMessages
 import com.mhssonic.flutter.model.Message.UsersProfileData
 import com.mhssonic.flutter.model.Message.create_message.TweetCreateData
-import com.mhssonic.flutter.model.Message.getUserDataByUserId
+import com.mhssonic.flutter.model.Message.GetUserDataByUserId
 import com.mhssonic.flutter.model.Message.getUserDataByUsername
 import com.mhssonic.flutter.model.MessageIdData
 import com.mhssonic.flutter.model.TimeLineData
@@ -32,7 +32,7 @@ interface ApiService {
     fun signUp(@Body data: UserSignUpData): Call<ResponseBody>
 
     @POST("/show-profile")
-    fun getProfileUser(@Body data: getUserDataByUserId): Observable<UserProfileData>
+    fun getProfileUser(@Body data: GetUserDataByUserId): Observable<UserProfileData>
 
     @POST("/search-users")
     fun searchUsersProfile(@Body data: getUserDataByUsername): Observable<UsersProfileData>
@@ -46,19 +46,19 @@ interface ApiService {
     fun getTimeLine(): Observable<TimeLineData>
 
     @POST("/show-direct")
-    fun getDirectMessageHttp(@Body data: getUserDataByUserId): Observable<FriendDirectMessages>
+    fun getDirectMessageHttp(@Body data: GetUserDataByUserId): Observable<FriendDirectMessages>
 
     @POST("/show-tweet")
     fun getComments(@Body data: MessageIdData): Observable<CommentsData>
 
     @POST("/follow")
-    fun follow(@Body data: getUserDataByUserId): Observable<ResponseBody>
+    fun follow(@Body data: GetUserDataByUserId): Observable<ResponseBody>
 
     @POST("/already-follow")
-    fun alreadyFollowed(@Body data: getUserDataByUserId): Observable<ResponseBody>
+    fun alreadyFollowed(@Body data: GetUserDataByUserId): Observable<ResponseBody>
 
     @POST("/unfollow")
-    fun unfollow(@Body data: getUserDataByUserId): Observable<ResponseBody>
+    fun unfollow(@Body data: GetUserDataByUserId): Observable<ResponseBody>
 
 
     @POST("/like")

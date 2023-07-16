@@ -1,28 +1,19 @@
 package com.mhssonic.flutter.ui.userAuth.Profile
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityProfileBinding
-import com.mhssonic.flutter.model.Message.getUserDataByUserId
+import com.mhssonic.flutter.model.Message.GetUserDataByUserId
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.DownloadFileService
 import com.mhssonic.flutter.service.http.RetrofitInstance
-import com.mhssonic.flutter.ui.userAuth.settings.SettingActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
@@ -74,7 +65,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnFollow.setOnClickListener{
             it.isEnabled = false
             if(alreadyFollowed.value == true){
-                compositeDisposable.add(serviceApi.unfollow(getUserDataByUserId(user.id)).subscribeOn(
+                compositeDisposable.add(serviceApi.unfollow(GetUserDataByUserId(user.id)).subscribeOn(
                     Schedulers.io()).subscribe({response ->
                     handler.post {
                         it.isEnabled = true
@@ -94,7 +85,7 @@ class ProfileActivity : AppCompatActivity() {
                     }
                 }))
             }else{
-                compositeDisposable.add(serviceApi.follow(getUserDataByUserId(user.id)).subscribeOn(
+                compositeDisposable.add(serviceApi.follow(GetUserDataByUserId(user.id)).subscribeOn(
                     Schedulers.io()).subscribe({response ->
                     handler.post {
                         it.isEnabled = true
@@ -116,7 +107,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        compositeDisposable.add(serviceApi.alreadyFollowed(getUserDataByUserId(user.id)).subscribeOn(
+        compositeDisposable.add(serviceApi.alreadyFollowed(GetUserDataByUserId(user.id)).subscribeOn(
             Schedulers.io()).subscribe({
             val responseBody = it.string()
             if(responseBody == "true"){

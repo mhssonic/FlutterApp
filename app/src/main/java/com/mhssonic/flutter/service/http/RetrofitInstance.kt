@@ -125,20 +125,10 @@ class RetrofitInstance {
     }
 
     companion object{
-        val BASE_URL = "https://192.168.1.4:5050"
+        const val BASE_URL = "https://192.168.1.4:5050"
+        private lateinit var cookieJar: MyCookieJar
         private fun getRetrofitInstance(sharedPreferences: SharedPreferences): Retrofit {
-//            val objectMapper: ObjectMapper = jacksonObjectMapper()
-//                .registerModule(SimpleModule()
-//                    .addDeserializer(LocalDateTime::class.java, PostingTimeDeserializer())
-
-//                    .addSerializer(LocalDateTime::class.java, MessageData.LocalDateTimeSerializer())
-//                    .addDeserializer(LocalDateTime::class.java,
-//                        MessageData.LocalDateTimeDeserializer()
-//                    )
-//                    .addDeserializer(MessageData::class.java, MessageDataDeserializer()))
-//                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-
-            val cookieJar = MyCookieJar(sharedPreferences)
+            cookieJar = MyCookieJar(sharedPreferences)
 
             val logger = HttpLoggingInterceptor()
             logger.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -166,8 +156,9 @@ class RetrofitInstance {
                 .client(client)
                 .build()
         }
-
         fun getApiService(sharedPreferences: SharedPreferences): ApiService = getRetrofitInstance(sharedPreferences).create(ApiService::class.java)
+
+        fun getCookieJar(): MyCookieJar = cookieJar
     }
 }
 

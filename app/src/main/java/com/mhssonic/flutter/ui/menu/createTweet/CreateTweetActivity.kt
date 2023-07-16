@@ -9,11 +9,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.navigation.ui.AppBarConfiguration
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.databinding.ActivityCreateTweetBinding
 import com.mhssonic.flutter.model.Message.create_message.TweetCreateData
-import com.mhssonic.flutter.model.Message.getUserDataByUserId
 import com.mhssonic.flutter.service.http.RetrofitInstance
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

@@ -21,7 +21,7 @@ import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.Message.MessageData
 import com.mhssonic.flutter.model.Message.Tweet.RetweetData
 import com.mhssonic.flutter.model.Message.Tweet.TweetData
-import com.mhssonic.flutter.model.Message.getUserDataByUserId
+import com.mhssonic.flutter.model.Message.GetUserDataByUserId
 import com.mhssonic.flutter.model.MessageIdData
 import com.mhssonic.flutter.model.UserProfileData
 import com.mhssonic.flutter.service.http.ApiService
@@ -112,7 +112,7 @@ class RecycleViewComments(
             holder.imageProfile.setImageURI(uriProfile.value)
         })
 
-        compositeDisposable.add(serviceApi.getProfileUser(getUserDataByUserId(tweetData.author)).subscribeOn(
+        compositeDisposable.add(serviceApi.getProfileUser(GetUserDataByUserId(tweetData.author)).subscribeOn(
             Schedulers.io()).subscribe({
             userProfileLiveData.postValue(it)
         }, {

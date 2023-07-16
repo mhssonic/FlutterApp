@@ -1,8 +1,6 @@
 package com.mhssonic.flutter.ui.menu.directMessage
 
-import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.mhssonic.flutter.R
 import com.mhssonic.flutter.model.Message.direct.DirectMessageData
-import com.mhssonic.flutter.model.Message.getUserDataByUserId
-import com.mhssonic.flutter.model.UserProfileData
-import com.mhssonic.flutter.service.http.DownloadFileService
-import com.mhssonic.flutter.ui.comments.ShowCommentActivity
-import com.mhssonic.flutter.ui.userAuth.Profile.ProfileActivity
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class RecycleViewDirectMessages(
     private val directMessagesData: ArrayList<DirectMessageData>,

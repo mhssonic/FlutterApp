@@ -84,4 +84,5 @@
     <string name="title_activity_retweet">RetweetActivity</string>
     <string name="retweeted">retweeted</string>
     <string name="example_text">a lot of content for testing how this message will look like</string>
+    <string name="server_websocket_url">ws://192.168.1.4:6060/show-direct</string>
 </resources>

@@ -44,7 +44,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editTextTextMultiLine"
+                android:id="@+id/directMessageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -54,7 +54,7 @@
                 android:inputType="textMultiLine" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton"
+                android:id="@+id/sendDirectButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"

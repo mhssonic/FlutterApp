@@ -87,7 +87,7 @@ class SignUpFourth() : SignUpFragment() {
 
         btnRegisterFragment.isEnabled = true//TODO really??
         btnRegisterFragment.setOnClickListener {
-            var birthDate = "$selectedYear-$selectedMonth-$selectedDay"
+            var birthDate = "$selectedYear-${if(selectedMonth < 10) "0$selectedMonth" else selectedMonth}-${if(selectedDay < 10) "0$selectedDay" else selectedDay}"
             val fourthFragment = SignUpFourth()
 
             val bundle = Bundle()
